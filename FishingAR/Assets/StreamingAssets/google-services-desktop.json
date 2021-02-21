@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "115586420131",
+    "firebase_url": "https://fishingar-17fed-default-rtdb.firebaseio.com",
+    "project_id": "fishingar-17fed",
+    "storage_bucket": "fishingar-17fed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115586420131:android:2c3bf40661364802865e16",
+        "android_client_info": {
+          "package_name": "com.game.fishingAR"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115586420131-aso6dc5r4d3lrjqlmsn0alab1jne0og5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCvXnwsFwAvElcMbKl5AXsaTD8XZBcCGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115586420131-aso6dc5r4d3lrjqlmsn0alab1jne0og5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

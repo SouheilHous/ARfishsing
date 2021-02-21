@@ -8,6 +8,7 @@ using UniRx.Triggers;
 using UniRx.Operators;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 public class MainPresenter : MonoBehaviour
 {
     [SerializeField] Text playerScore;
@@ -21,7 +22,7 @@ public class MainPresenter : MonoBehaviour
     [SerializeField] Image startTimerImage;
     [SerializeField] Sprite[] startTimerImageSprites;
 
-    [SerializeField] InputField playerNameInputfield;
+    [SerializeField] TMP_InputField playerNameInputfield;
 
     [SerializeField] Button enterNameButton;
     [SerializeField] Button startGame;
@@ -185,12 +186,13 @@ public class MainPresenter : MonoBehaviour
         {
             playerDataModel.lastGameScore += int.Parse(fishingPresneter.fishScore[i].text);
         }
-        //save the score here in the database
+        DatabaseManager._instance.setScore(playerDataModel.lastGameScore);
     }
-    void setName(InputField playername)
+
+    void setName(TMP_InputField playername) 
     {
         playerDataModel.playerName = playername.text;
-        //save the player name here in the database
+        // userName saving is handled in the DatabaseManager Script
 
     }
 }

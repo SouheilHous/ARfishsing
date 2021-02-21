@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id" xmlns:tools="http://schemas.android.com/tools">
+  <string name="firebase_database_url" translatable="false">https://fishingar-17fed-default-rtdb.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">115586420131</string>
+  <string name="google_storage_bucket" translatable="false">fishingar-17fed.appspot.com</string>
+  <string name="project_id" translatable="false">fishingar-17fed</string>
+  <string name="google_api_key" translatable="false">AIzaSyBCvXnwsFwAvElcMbKl5AXsaTD8XZBcCGM</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBCvXnwsFwAvElcMbKl5AXsaTD8XZBcCGM</string>
+  <string name="google_app_id" translatable="false">1:115586420131:android:2c3bf40661364802865e16</string>
+  <string name="default_web_client_id" translatable="false">115586420131-aso6dc5r4d3lrjqlmsn0alab1jne0og5.apps.googleusercontent.com</string>
+</resources>
