@@ -22,9 +22,10 @@ public class FishingPresenter : MonoBehaviour
     [SerializeField] GameObject[] particleEffectUI;
     [SerializeField] Transform particuleParent;
     [SerializeField] Transform targetPos;
-    [SerializeField] float Timer;
+    public float Timer;
     public bool gameStart;
     private Vector3 netStartRotation;
+    [SerializeField] Text timerText;
     // Start is called before the first frame update
     void Start()
     {
@@ -85,7 +86,16 @@ public class FishingPresenter : MonoBehaviour
             {
                 checkFish(lastCatchedFish[i]);
                 Destroy(lastCatchedFish[i]);
-                playGroundManager.fishInSceneReactive.Value -= 1;
+                if (FindObjectOfType<PlayGroundManager>() != null)
+                {
+                    playGroundManager = FindObjectOfType<PlayGroundManager>();
+                }
+                if (playGroundManager != null)
+                {
+                    
+                    playGroundManager.fishInSceneReactive.Value -= 1;
+
+                }
             }
         }
         fishCatched = false;
@@ -112,8 +122,11 @@ public class FishingPresenter : MonoBehaviour
             {
                 playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnGame;
                 Timer -= Time.deltaTime;
+                timerText.text = "Time Left : "+ (int)Timer;
                 if (Timer <= 0)
                 {
+                    playerDataModel.lastGameScore = 0;
+                    timerText.text = "Time Left : 00" ;
                     for (int i= 0; i < fishScore.Length; i++)
                     {
                         playerDataModel.lastGameScore += int.Parse(fishScore[i].text);
@@ -229,6 +242,16 @@ public class FishingPresenter : MonoBehaviour
                 }
                 targetPos = fishScore[UnityEngine.Random.Range(0, 2)].gameObject.transform;
                 break;
+        }
+    }
+    public void resetScore()
+    {
+        int score = new int();
+
+        for (int i = 0; i < fishScore.Length; i++)
+        {
+            score = 0;
+            fishScore[i].text = score.ToString();
         }
     }
 

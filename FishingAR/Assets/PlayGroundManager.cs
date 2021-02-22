@@ -34,7 +34,7 @@ public class PlayGroundManager : MonoBehaviour
         instanceFishesAtStart();
         fishInSceneReactive.Value = currentInstancedFishes.Count;
         ObserveCurrentFishes();
-        GameObject.FindObjectOfType<FishingPresenter>().playGroundManager = this;
+        FindObjectOfType<FishingPresenter>().playGroundManager = this;
     }
 
     // Update is called once per frame

@@ -18,9 +18,11 @@ public class MainPresenter : MonoBehaviour
     [SerializeField] GameObject startTimerPanel;
     [SerializeField] GameObject scanCodePanel;
     [SerializeField] GameObject scorePanel;
+    [SerializeField] GameObject[] allPanels;
 
     [SerializeField] Image startTimerImage;
     [SerializeField] Sprite[] startTimerImageSprites;
+    [SerializeField] Text TimerText;
 
     [SerializeField] TMP_InputField playerNameInputfield;
 
@@ -33,7 +35,7 @@ public class MainPresenter : MonoBehaviour
     [SerializeField] Button reastartGame;
     [SerializeField] Camera[] gameCams;
     [SerializeField] FishingPresenter fishingPresneter;
-
+    [SerializeField] GameObject spawnPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -93,15 +95,15 @@ public class MainPresenter : MonoBehaviour
                     Observable.Timer(TimeSpan.Zero)
                         .Do(_ => scanCodePanel.SetActive(false))
                         .Do(_ => startTimerPanel.SetActive(true))
-                        .Do(_ => startTimerImage.sprite = startTimerImageSprites[0])
+                        .Do(_ => TimerText.text="READY")
                         .Delay(TimeSpan.FromMilliseconds(1000))
-                        .Do(_=> startTimerImage.sprite= startTimerImageSprites[1])
+                        .Do(_ => TimerText.text = "3")
                         .Delay(TimeSpan.FromMilliseconds(1000))
-                        .Do(_ => startTimerImage.sprite = startTimerImageSprites[2])
+                        .Do(_ => TimerText.text = "2")
                         .Delay(TimeSpan.FromMilliseconds(1000))
-                        .Do(_ => startTimerImage.sprite = startTimerImageSprites[3])
+                        .Do(_ => TimerText.text = "1")
                         .Delay(TimeSpan.FromMilliseconds(1000))
-                        .Do(_ => startTimerImage.sprite = startTimerImageSprites[4])
+                        .Do(_ => TimerText.text = "GO")
                         .Delay(TimeSpan.FromMilliseconds(400))
                         .Do(_ => startTimerPanel.SetActive(false))
                         .Subscribe(_=> fishingPresneter.gameStart=true)
@@ -138,9 +140,10 @@ public class MainPresenter : MonoBehaviour
             .Subscribe()
             .AddTo(this);
         scanCode.OnClickAsObservable()
-            .Where(_ => FindObjectOfType<PlayGroundManager>()!= null)
+            .Where(_ => GameObject.FindGameObjectWithTag("playGroundSpawnPos")!=null)
             .Do(_=>Debug.Log("scaned"))
             .Delay(TimeSpan.FromMilliseconds(1000))
+            .Do(_ => spawnGround(GameObject.FindGameObjectWithTag("playGroundSpawnPos").transform,spawnPrefab))
             .Do(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnTimerStart)
             .Subscribe(_=> playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnTimerStart)
             .AddTo(this);
@@ -177,16 +180,35 @@ public class MainPresenter : MonoBehaviour
     }
     void restartScene()
     {
-        string name = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(name);
+        fishingPresneter.Timer = 60;
+        for(int i=0;i< allPanels.Length; i++)
+        {
+            if(allPanels[i].name== "MainMenu")
+            {
+                allPanels[i].SetActive(true);
+            }
+            else
+            {
+                allPanels[i].SetActive(false);
+
+            }
+        }
+        if (FindObjectOfType<PlayGroundManager>() != null)
+        {
+            GameObject playGround = FindObjectOfType<PlayGroundManager>().gameObject;
+            Destroy(playGround);
+        }
+        fishingPresneter.resetScore();
     }
     void setScore()
     {
+        playerDataModel.lastGameScore = 0;
         for (int i = 0; i < fishingPresneter.fishScore.Length; i++)
         {
             playerDataModel.lastGameScore += int.Parse(fishingPresneter.fishScore[i].text);
         }
         DatabaseManager._instance.setScore(playerDataModel.lastGameScore);
+        playerScore.text = "Score:" + playerDataModel.lastGameScore.ToString();
     }
 
     void setName(TMP_InputField playername) 
@@ -194,5 +216,9 @@ public class MainPresenter : MonoBehaviour
         playerDataModel.playerName = playername.text;
         // userName saving is handled in the DatabaseManager Script
 
+    }
+    void spawnGround(Transform spawnPos , GameObject prefab)
+    {
+        Instantiate(spawnPrefab, spawnPos.position, spawnPos.rotation, transform);
     }
 }

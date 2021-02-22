@@ -67,6 +67,8 @@ public class LeaderboardManager : MonoBehaviour
     }
     public void setupLeaderboard()
     {
+       
+
         foreach (UserRank _user in rankingUsers)
         {
             GameObject _element = Instantiate(rankElementPrefab, leaderboardParent);
