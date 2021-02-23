@@ -67,9 +67,21 @@ public class LeaderboardManager : MonoBehaviour
     }
     public void setupLeaderboard()
     {
-       
+        List<Transform> childs = new List<Transform>();
+        if (leaderboardParent.gameObject.GetComponentInChildren<Transform>() != null)
+        {
+            foreach (Transform child in leaderboardParent)
+            {
+                childs.Add(child);
 
-        foreach (UserRank _user in rankingUsers)
+            }
+            for(int i = 0; i < childs.Count; i++)
+            {
+                Destroy(childs[i].gameObject);
+            }
+        }
+        
+            foreach (UserRank _user in rankingUsers)
         {
             GameObject _element = Instantiate(rankElementPrefab, leaderboardParent);
             _element.GetComponent<RankElement>().setUserData(_user.Rank, _user.UserName, _user.UserScore);

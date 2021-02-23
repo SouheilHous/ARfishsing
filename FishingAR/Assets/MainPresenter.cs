@@ -157,6 +157,7 @@ public class MainPresenter : MonoBehaviour
             backToMain[i].OnClickAsObservable()
             .Where(_ => fishingPresneter.gameStart != true)
             .Do(_ => InitializeUI())
+            .Do(_=>setScore())
             .Do(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnMain)
             .Subscribe(_ => restartScene())
             .AddTo(this);
@@ -207,7 +208,10 @@ public class MainPresenter : MonoBehaviour
         {
             playerDataModel.lastGameScore += int.Parse(fishingPresneter.fishScore[i].text);
         }
-        DatabaseManager._instance.setScore(playerDataModel.lastGameScore);
+        if( playerDataModel.currentGameStatus.Value == playerDataModel.GameStatus.OnGameEnd)
+        {
+            DatabaseManager._instance.setScore(playerDataModel.lastGameScore);
+        }
         playerScore.text = "Score:" + playerDataModel.lastGameScore.ToString();
     }
 
