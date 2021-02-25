@@ -36,6 +36,7 @@ public class MainPresenter : MonoBehaviour
     [SerializeField] Camera[] gameCams;
     [SerializeField] FishingPresenter fishingPresneter;
     [SerializeField] GameObject spawnPrefab;
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -115,6 +116,7 @@ public class MainPresenter : MonoBehaviour
                         .Do(_=> playerScore.text="Score:"+playerDataModel.lastGameScore.ToString())
                         .Delay(TimeSpan.FromMilliseconds(3000))
                         .Do(_=>setScore())
+                        .Do(_=> gameCams[1].transform.GetChild(0).gameObject.SetActive(false))
                         .Subscribe(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnGameEnd)
                         .AddTo(this);
                     break;
@@ -140,10 +142,11 @@ public class MainPresenter : MonoBehaviour
             .Subscribe()
             .AddTo(this);
         scanCode.OnClickAsObservable()
-            .Where(_ => GameObject.FindGameObjectWithTag("playGroundSpawnPos")!=null)
-            .Do(_=>Debug.Log("scaned"))
+            .Where(_ => GameObject.FindGameObjectWithTag("playGroundSpawnPos") != null)
+            .Do(_ => Debug.Log("scaned"))
             .Delay(TimeSpan.FromMilliseconds(1000))
-            .Do(_ => spawnGround(GameObject.FindGameObjectWithTag("playGroundSpawnPos").transform,spawnPrefab))
+            .Do(_ => spawnGround(GameObject.FindGameObjectWithTag("playGroundSpawnPos").transform, spawnPrefab))
+            .Do(_ => gameCams[1].transform.GetChild(0).gameObject.SetActive(true))
             .Do(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnTimerStart)
             .Subscribe(_=> playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnTimerStart)
             .AddTo(this);
@@ -223,6 +226,8 @@ public class MainPresenter : MonoBehaviour
     }
     void spawnGround(Transform spawnPos , GameObject prefab)
     {
-        Instantiate(spawnPrefab, spawnPos.position, spawnPos.rotation, transform);
+        Vector3 offset = new Vector3(spawnPos.position.x-1,spawnPos.position.y-0.5f,spawnPos.position.z);
+        Instantiate(spawnPrefab, offset, spawnPos.rotation, transform);
     }
+   
 }

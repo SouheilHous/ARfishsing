@@ -18,7 +18,7 @@ public class PathController : MonoBehaviour
     [SerializeField] List<int> JumpStartPoint = new List<int> {1,3,5,7 };
     [SerializeField] List<int> JumpEndPoint = new List<int> { 2, 4, 6, 8 };
     private List<int> CurrentJumpPoints = new List<int>();
-    
+
     public bool IsMoving;
     public PathMovementStyle MovementStyle;
     public bool LoopThroughPoints;
@@ -87,7 +87,12 @@ public class PathController : MonoBehaviour
                     }
                     if (randJump >= 4)
                     {
-                        fishJump.Value = true;
+                        if (PlayGroundManager.canJump == true)
+                        {
+                            PlayGroundManager.canJump = false;
+                            fishJump.Value = true;
+
+                        }
 
                     }
                     else
@@ -169,6 +174,7 @@ public class PathController : MonoBehaviour
             .Do(_=>IsJumping=false)
             .Do(_ => IsMoving = true)
             .Do(_=> MovementSpeed = startSpeed)
+            .Do(_=>PlayGroundManager.canJump=true)
             .Subscribe()
             .AddTo(this);
         this.UpdateAsObservable()

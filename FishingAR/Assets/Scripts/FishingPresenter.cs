@@ -26,31 +26,43 @@ public class FishingPresenter : MonoBehaviour
     public bool gameStart;
     private Vector3 netStartRotation;
     [SerializeField] Text timerText;
+    private bool dragging = false;
+    bool partState;
+    private float distance;
+    Vector3 initialPosition;
+    [SerializeField] Sprite[] catchedFishImage;
+    [SerializeField] Text catchedFishMessage;
+    [SerializeField] Image catchedFishImagePanel;
+    [SerializeField] GameObject sawFishPanelWarn;
+    [SerializeField] GameObject catchedFishPanel;
     // Start is called before the first frame update
     void Start()
     {
         partEffectOff();
         netStartRotation = RodParent.transform.localEulerAngles;
         CatchFish();
-        //ObserveMouseDragRod();
+        ObserveMouseDragRod();
     }
     void CatchFish()
     {
         hookObject.OnTriggerEnterAsObservable()
-            .Where(_=>gameStart==true)
+            .Where(_ => gameStart == true)
             .Where(_ => _.tag == "fish")
-            .Do(_ => partEffectOn())
+            .Where(_ => _.transform.parent.GetComponent<PathController>().IsJumping == true)
             .Do(_ => particuleParent.gameObject.SetActive(true))
-            .Do(_=> particuleParent.position=hookObject.transform.position)
-            .Where(_=>_.transform.parent.GetComponent<PathController>().IsJumping==true)
+            .Do(_ => particuleParent.position = hookObject.transform.position)
+            .Do(_ => partEffectOn())
             .Do(_ => _.transform.parent.GetComponent<PathController>().catched = true)
-            .Do(_=>_.transform.parent.position= hookObject.transform.position)
-            .Do(_ => fishCatched=true)
-            .Do(_ => MainCam.GetComponent<CameraShake>().shakecamera())
-            .Do(_ => _.GetComponent<Animator>().enabled=false)
-            .Do(_ => _.transform.localPosition=Vector3.zero)
+            .Do(_ => _.transform.parent.position = hookObject.transform.position)
+            .Do(_ => fishCatched = true)
+            //.Do(_ => MainCam.GetComponent<CameraShake>().shakecamera())
+            .Do(_ => _.GetComponent<Animator>().enabled = false)
+            .Do(_ => _.transform.localPosition = Vector3.zero)
             .Do(_ => setFishCatched(_.transform.parent))
             .Delay(TimeSpan.FromMilliseconds(2000))
+            .Do(_ => catchedFishPanel.SetActive(false))
+            .Do(_ => catchedFishPanel.GetComponent<Animator>().enabled = false)
+            .Do(_ => sawFishPanelWarn.SetActive(false))
             .Do(_=>particuleParent.gameObject.SetActive(false))
             .Where(_=>lastCatchedFish!=null)
             .Do(_=> clearFish())
@@ -77,10 +89,12 @@ public class FishingPresenter : MonoBehaviour
         fish.SetParent(hookObject.transform);
         fish.GetComponent<PathController>().enabled = false;
         lastCatchedFish.Add (fish.gameObject);
+        catchedFishShow(fish.name);
     }
     void clearFish()
     {
-        for(int i = 0; i < lastCatchedFish.Count; i++)
+       PlayGroundManager.canJump = true;
+        for (int i = 0; i < lastCatchedFish.Count; i++)
         {
             if (lastCatchedFish[i] != null)
             {
@@ -142,13 +156,21 @@ public class FishingPresenter : MonoBehaviour
     {
         
        this.UpdateAsObservable()
+            .Where(_=> playerDataModel.currentGameStatus.Value == playerDataModel.GameStatus.OnGame)
             .Where(_ => Input.GetMouseButton(0))
             .Do(_ => mouseClicked = true)
             .Subscribe(_ => moveRod())
             .AddTo(this);
-       this.UpdateAsObservable()
+        this.UpdateAsObservable()
+            .Where(_ => playerDataModel.currentGameStatus.Value == playerDataModel.GameStatus.OnGame)
+            .Where(_ => Input.GetMouseButtonDown(0))
+            .Subscribe(_ => setRay())
+            .AddTo(this);
+        this.UpdateAsObservable()
+            .Where(_ => playerDataModel.currentGameStatus.Value == playerDataModel.GameStatus.OnGame)
            .Where(_ => Input.GetMouseButtonUp(0))
            .Do(_ => mouseClicked = false)
+           .Do(_ => dragging = false)
            .Subscribe()
            .AddTo(this);
 
@@ -158,16 +180,23 @@ public class FishingPresenter : MonoBehaviour
     }
     void moveRod()
     {
-        Vector3 mouse = Input.mousePosition;
-        Ray castPoint = MainCam.ScreenPointToRay(mouse);
-        RaycastHit hit;
-        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity))
-        {
-            Vector3 rodPos = new Vector3(hit.point.x, hit.point.y, RodParent.transform.position.z);
 
-            RodParent.transform.position = rodPos;
-        }
-     
+        Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
+        Vector3 rayPoint = ray.GetPoint(distance);
+        RodParent.transform.position = rayPoint;
+
+
+
+    }
+    void setRay()
+    {
+        Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
+        initialPosition = transform.position;
+
+        Vector3 rayPoint = ray.GetPoint(0);
+
+        // Not sure but this might get you a slightly better value for distance
+        distance = Vector3.Distance(transform.position, rayPoint);
     }
     public void changeRotation()
     {
@@ -175,13 +204,18 @@ public class FishingPresenter : MonoBehaviour
     }
     void partEffectOn()
     {
-        for (int i = 0; i == particleEffectUI.Length; i++)
+        if (partState == true)
         {
-           
+            partState = false;
+            for (int i = 0; i == particleEffectUI.Length; i++)
+            {
+
                 particleEffectUI[i].SetActive(true);
-            
-            
+
+
+            }
         }
+        
 
     }
     void partEffectOff()
@@ -194,6 +228,8 @@ public class FishingPresenter : MonoBehaviour
             
 
         }
+        partState = true;
+     
 
     }
 
@@ -252,6 +288,38 @@ public class FishingPresenter : MonoBehaviour
         {
             score = 0;
             fishScore[i].text = score.ToString();
+        }
+    }
+    void catchedFishShow(string name)
+    {
+        Debug.Log(name);
+        catchedFishPanel.SetActive(true);
+        catchedFishPanel.GetComponent<Animator>().enabled = true;
+        switch (name)
+        {
+            default:
+            case "blue(Clone)":
+                catchedFishImagePanel.sprite = catchedFishImage[0];
+                catchedFishMessage.text = "CATCHED FISH : BLUE&YELLOW";
+                break;
+            case "Red(Clone)":
+                catchedFishImagePanel.sprite = catchedFishImage[1];
+                catchedFishMessage.text = "CATCHED FISH : WHITE&PURPLE";
+                break;
+            case "green(Clone)":
+                catchedFishImagePanel.sprite = catchedFishImage[2];
+                catchedFishMessage.text = "CATCHED FISH : ORANGE&GREEN";
+                break;
+            case "rimbowFish(Clone)":
+                catchedFishImagePanel.sprite = catchedFishImage[3];
+                catchedFishMessage.text = "CATCHED FISH : RAINBOW FISH";
+
+                break;
+            case "SawFish(Clone)":
+                catchedFishImagePanel.sprite = catchedFishImage[4];
+                catchedFishMessage.text = "CATCHED FISH : SAW FISH";
+                sawFishPanelWarn.SetActive(true);
+                break;
         }
     }
 
