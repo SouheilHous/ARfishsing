@@ -36,6 +36,7 @@ public class PathController : MonoBehaviour
     public int randJump;
     int randwhereStart;
     public bool catched;
+    [SerializeField] SoundView soundManager;
     private void Awake()
     {
         PathContainer = GameObject.Find("waypointsParent").transform;
@@ -59,6 +60,7 @@ public class PathController : MonoBehaviour
             .Subscribe()
             .AddTo(this);
         ObserveFishJump();
+        soundManager = FindObjectOfType<SoundView>();
     }
     void SetAngle(Vector3 destination)
     {
@@ -165,6 +167,7 @@ public class PathController : MonoBehaviour
     {
         fishJump
             .Where(_ => fishJump.Value == true)
+            .Do(_=>soundManager.playFishJump(0))
             .Do(_ => fishjumpCond())
             .Do(_ => setJumpPoints())
             .Do(_=>IsMoving=false)
@@ -175,6 +178,7 @@ public class PathController : MonoBehaviour
             .Do(_ => IsMoving = true)
             .Do(_=> MovementSpeed = startSpeed)
             .Do(_=>PlayGroundManager.canJump=true)
+            .Do(_ => soundManager.playFishJump(1))
             .Subscribe()
             .AddTo(this);
         this.UpdateAsObservable()

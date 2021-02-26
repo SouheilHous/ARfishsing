@@ -35,6 +35,7 @@ public class FishingPresenter : MonoBehaviour
     [SerializeField] Image catchedFishImagePanel;
     [SerializeField] GameObject sawFishPanelWarn;
     [SerializeField] GameObject catchedFishPanel;
+    [SerializeField] SoundView soundManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +68,8 @@ public class FishingPresenter : MonoBehaviour
             .Where(_=>lastCatchedFish!=null)
             .Do(_=> clearFish())
             .Delay(TimeSpan.FromMilliseconds(1000))
+            .Do(_=> PlayGroundManager.canJump = true)
+            .Do(_=>soundManager.playCurrentActionSFX(soundManager.effectCatch))
             .Do(_ => partEffectOff())
             .Subscribe()
             .AddTo(this);
@@ -93,7 +96,7 @@ public class FishingPresenter : MonoBehaviour
     }
     void clearFish()
     {
-       PlayGroundManager.canJump = true;
+       
         for (int i = 0; i < lastCatchedFish.Count; i++)
         {
             if (lastCatchedFish[i] != null)
@@ -204,6 +207,7 @@ public class FishingPresenter : MonoBehaviour
     }
     void partEffectOn()
     {
+        soundManager.playCurrentActionSFX(soundManager.effectCatch);
         if (partState == true)
         {
             partState = false;
@@ -301,24 +305,31 @@ public class FishingPresenter : MonoBehaviour
             case "blue(Clone)":
                 catchedFishImagePanel.sprite = catchedFishImage[0];
                 catchedFishMessage.text = "CATCHED FISH : BLUE&YELLOW";
+                soundManager.playFishCatchedSfx(0);
                 break;
             case "Red(Clone)":
                 catchedFishImagePanel.sprite = catchedFishImage[1];
                 catchedFishMessage.text = "CATCHED FISH : WHITE&PURPLE";
+                soundManager.playFishCatchedSfx(0);
                 break;
             case "green(Clone)":
                 catchedFishImagePanel.sprite = catchedFishImage[2];
                 catchedFishMessage.text = "CATCHED FISH : ORANGE&GREEN";
+                soundManager.playFishCatchedSfx(0);
+
                 break;
             case "rimbowFish(Clone)":
                 catchedFishImagePanel.sprite = catchedFishImage[3];
                 catchedFishMessage.text = "CATCHED FISH : RAINBOW FISH";
+                soundManager.playFishCatchedSfx(1);
 
                 break;
             case "SawFish(Clone)":
                 catchedFishImagePanel.sprite = catchedFishImage[4];
                 catchedFishMessage.text = "CATCHED FISH : SAW FISH";
                 sawFishPanelWarn.SetActive(true);
+                soundManager.playFishCatchedSfx(2);
+
                 break;
         }
     }
