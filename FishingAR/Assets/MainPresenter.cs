@@ -18,9 +18,11 @@ public class MainPresenter : MonoBehaviour
     [SerializeField] GameObject startTimerPanel;
     [SerializeField] GameObject scanCodePanel;
     [SerializeField] GameObject scorePanel;
+    [SerializeField] GameObject[] allPanels;
 
     [SerializeField] Image startTimerImage;
     [SerializeField] Sprite[] startTimerImageSprites;
+    [SerializeField] Text TimerText;
 
     [SerializeField] TMP_InputField playerNameInputfield;
 
@@ -33,7 +35,8 @@ public class MainPresenter : MonoBehaviour
     [SerializeField] Button reastartGame;
     [SerializeField] Camera[] gameCams;
     [SerializeField] FishingPresenter fishingPresneter;
-
+    [SerializeField] GameObject spawnPrefab;
+    [SerializeField] SoundView soundManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +47,7 @@ public class MainPresenter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
     void ObserveGameStatus()
     {
@@ -57,6 +60,7 @@ public class MainPresenter : MonoBehaviour
             {
                 case playerDataModel.GameStatus.OnStart:
                     InitializeUI();
+                    soundManager.playBackgroundMusic(soundManager.BackgroundMusics[0]);
                    if (playerDataModel.playerLogged == true)
                     {
                         playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnMain;
@@ -67,6 +71,7 @@ public class MainPresenter : MonoBehaviour
                         .Do(_ => loginPanel.SetActive(false))
                         .Do(_ => leaderBoardPanel.SetActive(false))
                         .Do(_ => mainPanel.SetActive(true))
+                        .Do(_ => soundManager.playBackgroundMusic(soundManager.BackgroundMusics[0]))
                         .Do(_ => setName(playerNameInputfield))
                         .Subscribe()
                         .AddTo(this);
@@ -91,19 +96,23 @@ public class MainPresenter : MonoBehaviour
                     break;
                 case playerDataModel.GameStatus.OnTimerStart:
                     Observable.Timer(TimeSpan.Zero)
+                        .Do(_ => soundManager.playBackgroundSoundSFX(soundManager.BackgroundSoundpond))
                         .Do(_ => scanCodePanel.SetActive(false))
                         .Do(_ => startTimerPanel.SetActive(true))
-                        .Do(_ => startTimerImage.sprite = startTimerImageSprites[0])
+                        .Do(_ => soundManager.playBackgroundMusic(soundManager.BackgroundMusics[1]))
+                        .Do(_ => TimerText.text="READY")
                         .Delay(TimeSpan.FromMilliseconds(1000))
-                        .Do(_=> startTimerImage.sprite= startTimerImageSprites[1])
+                        .Do(_ => soundManager.playCurrentActionSFX(soundManager.Timer))
+                        .Do(_ => TimerText.text = "3")
                         .Delay(TimeSpan.FromMilliseconds(1000))
-                        .Do(_ => startTimerImage.sprite = startTimerImageSprites[2])
+                        .Do(_ => TimerText.text = "2")
                         .Delay(TimeSpan.FromMilliseconds(1000))
-                        .Do(_ => startTimerImage.sprite = startTimerImageSprites[3])
+                        .Do(_ => TimerText.text = "1")
                         .Delay(TimeSpan.FromMilliseconds(1000))
-                        .Do(_ => startTimerImage.sprite = startTimerImageSprites[4])
-                        .Delay(TimeSpan.FromMilliseconds(400))
+                        .Do(_ => TimerText.text = "GO")
+                        .Delay(TimeSpan.FromMilliseconds(1200))
                         .Do(_ => startTimerPanel.SetActive(false))
+                        .Do(_ => soundManager.playCurrentActionSFX(soundManager.gameStart))
                         .Subscribe(_=> fishingPresneter.gameStart=true)
                         .AddTo(this);
                     break;
@@ -111,8 +120,11 @@ public class MainPresenter : MonoBehaviour
                     Observable.Timer(TimeSpan.Zero)
                         .Do(_ => scorePanel.SetActive(true))
                         .Do(_=> playerScore.text="Score:"+playerDataModel.lastGameScore.ToString())
-                        .Delay(TimeSpan.FromMilliseconds(3000))
+                        .Delay(TimeSpan.FromMilliseconds(1000))
+                        .Do(_ => soundManager.playCurrentActionSFX(soundManager.gameEnd))
+                        .Delay(TimeSpan.FromMilliseconds(2000))
                         .Do(_=>setScore())
+                        .Do(_=> gameCams[1].transform.GetChild(0).gameObject.SetActive(false))
                         .Subscribe(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnGameEnd)
                         .AddTo(this);
                     break;
@@ -127,25 +139,33 @@ public class MainPresenter : MonoBehaviour
             .Where(_ => playerNameInputfield.text != null)
             .Do(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnMain)
             .Do(_ => playerDataModel.playerLogged=true)
+            .Do(_=> soundManager.playUISFX())
             .Subscribe()
             .AddTo(this);
         startGame.OnClickAsObservable()
             .Do(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnGameWaitToStart)
+            .Do(_ => soundManager.playUISFX())
             .Subscribe()
             .AddTo(this);
         leaderBoard.OnClickAsObservable()
             .Do(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnLeaderBoard)
+            .Do(_ => soundManager.playUISFX())
             .Subscribe()
             .AddTo(this);
         scanCode.OnClickAsObservable()
-            .Where(_ => FindObjectOfType<PlayGroundManager>()!= null)
-            .Do(_=>Debug.Log("scaned"))
+            .Do(_ => soundManager.playUISFX())
+            .Where(_ => GameObject.FindGameObjectWithTag("playGroundSpawnPos") != null)
+            .Do(_ => Debug.Log("scaned"))
             .Delay(TimeSpan.FromMilliseconds(1000))
+            .Do(_ => spawnGround(GameObject.FindGameObjectWithTag("playGroundSpawnPos").transform, spawnPrefab))
+            .Do(_ => gameCams[1].transform.GetChild(0).gameObject.SetActive(true))
+            .Do(_ => soundManager.playCurrentActionSFX(soundManager.qrScaned))
             .Do(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnTimerStart)
             .Subscribe(_=> playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnTimerStart)
             .AddTo(this);
         reastartGame.OnClickAsObservable()
             .Where(_ => fishingPresneter.gameStart != true)
+            .Do(_ => soundManager.playUISFX())
             .Do(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnGameWaitToStart)
             .Subscribe(_=> restartScene())
             .AddTo(this);
@@ -154,6 +174,8 @@ public class MainPresenter : MonoBehaviour
             backToMain[i].OnClickAsObservable()
             .Where(_ => fishingPresneter.gameStart != true)
             .Do(_ => InitializeUI())
+            .Do(_=>setScore())
+            .Do(_ => soundManager.playUISFX())
             .Do(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnMain)
             .Subscribe(_ => restartScene())
             .AddTo(this);
@@ -177,24 +199,52 @@ public class MainPresenter : MonoBehaviour
     }
     void restartScene()
     {
-        string name = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(name);
+        soundManager.resetSFX();
+
+        fishingPresneter.Timer = 60;
+        for(int i=0;i< allPanels.Length; i++)
+        {
+            if(allPanels[i].name== "MainMenu")
+            {
+                allPanels[i].SetActive(true);
+            }
+            else
+            {
+                allPanels[i].SetActive(false);
+
+            }
+        }
+        if (FindObjectOfType<PlayGroundManager>() != null)
+        {
+            GameObject playGround = FindObjectOfType<PlayGroundManager>().gameObject;
+            Destroy(playGround);
+        }
+        fishingPresneter.resetScore();
     }
     void setScore()
     {
+        playerDataModel.lastGameScore = 0;
         for (int i = 0; i < fishingPresneter.fishScore.Length; i++)
         {
             playerDataModel.lastGameScore += int.Parse(fishingPresneter.fishScore[i].text);
         }
-        DatabaseManager._instance.getScore(FetchedScore =>
+        if( playerDataModel.currentGameStatus.Value == playerDataModel.GameStatus.OnGameEnd)
         {
-            DatabaseManager._instance.setScore(playerDataModel.lastGameScore + FetchedScore);
-        });
+            DatabaseManager._instance.setScore(playerDataModel.lastGameScore);
+        }
+        playerScore.text = "Score:" + playerDataModel.lastGameScore.ToString();
     }
+
     void setName(TMP_InputField playername) 
     {
         playerDataModel.playerName = playername.text;
         // userName saving is handled in the DatabaseManager Script
 
     }
+    void spawnGround(Transform spawnPos , GameObject prefab)
+    {
+        Vector3 offset = new Vector3(spawnPos.position.x-1,spawnPos.position.y-0.5f,spawnPos.position.z);
+        Instantiate(spawnPrefab, offset, spawnPos.rotation, transform);
+    }
+   
 }

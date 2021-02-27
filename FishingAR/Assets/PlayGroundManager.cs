@@ -13,6 +13,7 @@ public class PlayGroundManager : MonoBehaviour
     [SerializeField] GameObject[] instanceFishes;
     [SerializeField] GameObject instanceSawFishes;
     [SerializeField] GameObject instanceSpecialFishes;
+    public static bool canJump;
 
     public int randInstance;
     [SerializeField] Transform instancePointsParent;
@@ -30,11 +31,12 @@ public class PlayGroundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _points = instancePointsParent.GetComponentsInChildren<Transform>();
+        canJump = true;
+           _points = instancePointsParent.GetComponentsInChildren<Transform>();
         instanceFishesAtStart();
         fishInSceneReactive.Value = currentInstancedFishes.Count;
         ObserveCurrentFishes();
-        GameObject.FindObjectOfType<FishingPresenter>().playGroundManager = this;
+        FindObjectOfType<FishingPresenter>().playGroundManager = this;
     }
 
     // Update is called once per frame

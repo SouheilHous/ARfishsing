@@ -9,7 +9,7 @@ public struct playerDataModel
 {
 
 
-		public static string playerName;
+	public static string playerName;
     public static bool playerLogged;
 
     public static int lastGameScore;
