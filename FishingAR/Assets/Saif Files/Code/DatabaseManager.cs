@@ -48,4 +48,24 @@ public class DatabaseManager : MonoBehaviour
             .SetValueAsync(Score);
 
     }
+    public void getScore(Action<int> Success)
+    {
+        FirebaseUser user = FirebaseAuth.DefaultInstance.CurrentUser;
+        FirebaseDatabase
+            .DefaultInstance
+            .RootReference
+            .Child("users")
+            .Child(user.UserId)
+            .Child("UserScore")
+            .GetValueAsync()
+            .ContinueWith(task =>
+            {
+                if (task.IsCanceled)
+                    return;
+                if (task.IsFaulted)
+                    return;
+                DataSnapshot snapshot = task.Result;
+                Success((int)((long)snapshot.Value));
+            });
+    }
 }

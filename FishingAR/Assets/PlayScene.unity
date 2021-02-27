@@ -1722,7 +1722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LEADERBOARD_GET: https://europe-west1-fishingar-17fed.cloudfunctions.net/Leaderboard
-  topUsers: 1
+  topUsers: 10
   leaderboardParent: {fileID: 1901975794}
   rankElementPrefab: {fileID: 5931558881426007292, guid: f25068c98e1e6f04ab15e15d30948079,
     type: 3}

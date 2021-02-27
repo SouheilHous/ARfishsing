@@ -44,7 +44,7 @@ public class MainPresenter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     void ObserveGameStatus()
     {
@@ -186,9 +186,11 @@ public class MainPresenter : MonoBehaviour
         {
             playerDataModel.lastGameScore += int.Parse(fishingPresneter.fishScore[i].text);
         }
-        DatabaseManager._instance.setScore(playerDataModel.lastGameScore);
+        DatabaseManager._instance.getScore(FetchedScore =>
+        {
+            DatabaseManager._instance.setScore(playerDataModel.lastGameScore + FetchedScore);
+        });
     }
-
     void setName(TMP_InputField playername) 
     {
         playerDataModel.playerName = playername.text;
