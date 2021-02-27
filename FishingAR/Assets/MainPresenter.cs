@@ -228,9 +228,12 @@ public class MainPresenter : MonoBehaviour
         {
             playerDataModel.lastGameScore += int.Parse(fishingPresneter.fishScore[i].text);
         }
-        if( playerDataModel.currentGameStatus.Value == playerDataModel.GameStatus.OnGameEnd)
+        if(playerDataModel.currentGameStatus.Value == playerDataModel.GameStatus.OnGameEnd)
         {
-            DatabaseManager._instance.setScore(playerDataModel.lastGameScore);
+            DatabaseManager._instance.getScore(FetchedScore =>
+            {
+                DatabaseManager._instance.setScore(playerDataModel.lastGameScore + FetchedScore);
+            });       
         }
         playerScore.text = "Score:" + playerDataModel.lastGameScore.ToString();
     }
