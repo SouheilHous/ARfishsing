@@ -110,7 +110,7 @@ public class MainPresenter : MonoBehaviour
                         .Do(_ => TimerText.text = "1")
                         .Delay(TimeSpan.FromMilliseconds(1000))
                         .Do(_ => TimerText.text = "GO")
-                        .Delay(TimeSpan.FromMilliseconds(400))
+                        .Delay(TimeSpan.FromMilliseconds(1200))
                         .Do(_ => startTimerPanel.SetActive(false))
                         .Do(_ => soundManager.playCurrentActionSFX(soundManager.gameStart))
                         .Subscribe(_=> fishingPresneter.gameStart=true)
