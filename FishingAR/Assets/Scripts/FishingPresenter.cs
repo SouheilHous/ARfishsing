@@ -36,9 +36,11 @@ public class FishingPresenter : MonoBehaviour
     [SerializeField] GameObject sawFishPanelWarn;
     [SerializeField] GameObject catchedFishPanel;
     [SerializeField] SoundView soundManager;
+    public ReactiveProperty<bool> destroyNet = new ReactiveProperty<bool>();
     // Start is called before the first frame update
     void Start()
     {
+        destroyNet.Value = false;
         partEffectOff();
         netStartRotation = RodParent.transform.localEulerAngles;
         CatchFish();
@@ -84,6 +86,14 @@ public class FishingPresenter : MonoBehaviour
           .Where(_=> targetPos!=null)
           .Subscribe(_=> moveParticule(targetPos.position))
           .AddTo(this);
+        destroyNet
+            .Where(_ => destroyNet.Value == true)
+            .Do(_ => RodParent.transform.GetChild(0).gameObject.SetActive(false))
+            .Delay(TimeSpan.FromMilliseconds(4000))
+            .Do(_ => RodParent.transform.GetChild(0).gameObject.SetActive(true))
+            .Do(_ => destroyNet.Value = false)
+            .Subscribe()
+            .AddTo(this);
 
     }
     void setFishCatched(Transform fish)
@@ -326,6 +336,7 @@ public class FishingPresenter : MonoBehaviour
                 break;
             case "SawFish(Clone)":
                 catchedFishImagePanel.sprite = catchedFishImage[4];
+                destroyNet.Value = true;
                 catchedFishMessage.text = "CATCHED FISH : SAW FISH";
                 sawFishPanelWarn.SetActive(true);
                 soundManager.playFishCatchedSfx(2);

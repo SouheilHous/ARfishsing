@@ -2820,7 +2820,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &994790702
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4096,7 +4096,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 9.419922, y: 0}
   m_SizeDelta: {x: 38.832886, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4559,7 +4559,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5912,8 +5912,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.005, y: 0.05, z: 0.05}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.005, y: 0.08, z: 0.07076794}
+  m_Center: {x: -0.0000000028324545, y: 0.0000000017039524, z: 0.010383895}
 --- !u!54 &2059453459
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6349,6 +6349,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2322313740337959304, guid: e0b12b47d09da854abed1bc11fab6064,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4267856065950249053, guid: e0b12b47d09da854abed1bc11fab6064,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4752276692701619142, guid: e0b12b47d09da854abed1bc11fab6064,
         type: 3}
       propertyPath: m_IsActive
@@ -6362,7 +6372,7 @@ PrefabInstance:
     - target: {fileID: 7210005047639233733, guid: e0b12b47d09da854abed1bc11fab6064,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8017750731219996287, guid: e0b12b47d09da854abed1bc11fab6064,
         type: 3}

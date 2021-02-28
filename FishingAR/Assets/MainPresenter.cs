@@ -184,6 +184,7 @@ public class MainPresenter : MonoBehaviour
     }
     void InitializeUI()
     {
+        gameCams[1].transform.GetChild(0).gameObject.SetActive(false);
         gameCams[1].gameObject.SetActive(false);
         gameCams[0].gameObject.SetActive(true);
         loginPanel.SetActive(true);
@@ -200,7 +201,7 @@ public class MainPresenter : MonoBehaviour
     void restartScene()
     {
         soundManager.resetSFX();
-
+        gameCams[1].transform.GetChild(0).gameObject.SetActive(false);
         fishingPresneter.Timer = 60;
         for(int i=0;i< allPanels.Length; i++)
         {
