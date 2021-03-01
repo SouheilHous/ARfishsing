@@ -3765,6 +3765,7 @@ MonoBehaviour:
   Timer: 60
   gameStart: 0
   timerText: {fileID: 152971388}
+  netDestroyTimer: 4
   catchedFishImage:
   - {fileID: 21300000, guid: e1f95b39d12e7864ea84c840ed5e2db8, type: 3}
   - {fileID: 21300000, guid: 5f2bf36ffbcf16845a004d56213ef8ff, type: 3}

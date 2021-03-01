@@ -27,6 +27,7 @@ public class FishingPresenter : MonoBehaviour
     private Vector3 netStartRotation;
     [SerializeField] Text timerText;
     private bool dragging = false;
+    public int netDestroyTimer=4;
     bool partState;
     private float distance;
     Vector3 initialPosition;
@@ -89,7 +90,7 @@ public class FishingPresenter : MonoBehaviour
         destroyNet
             .Where(_ => destroyNet.Value == true)
             .Do(_ => RodParent.transform.GetChild(0).gameObject.SetActive(false))
-            .Delay(TimeSpan.FromMilliseconds(4000))
+            .Delay(TimeSpan.FromSeconds(netDestroyTimer))
             .Do(_ => RodParent.transform.GetChild(0).gameObject.SetActive(true))
             .Do(_ => destroyNet.Value = false)
             .Subscribe()
