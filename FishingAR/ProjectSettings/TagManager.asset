@@ -9,6 +9,7 @@ TagManager:
   - WayPointParen
   - sawfish
   - rimFish
+  - playGroundSpawnPos
   layers:
   - Default
   - TransparentFX

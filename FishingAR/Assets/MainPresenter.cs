@@ -238,7 +238,6 @@ public class MainPresenter : MonoBehaviour
         }
         playerScore.text = "Score:" + playerDataModel.lastGameScore.ToString();
     }
-
     void setName(TMP_InputField playername) 
     {
         playerDataModel.playerName = playername.text;
@@ -247,8 +246,7 @@ public class MainPresenter : MonoBehaviour
     }
     void spawnGround(Transform spawnPos , GameObject prefab)
     {
-        Vector3 offset = new Vector3(spawnPos.position.x-1,spawnPos.position.y-0.5f,spawnPos.position.z);
+        Vector3 offset = new Vector3(spawnPos.position.x-2.5f,spawnPos.position.y-0.7f,spawnPos.position.z-1f);
         Instantiate(spawnPrefab, offset, spawnPos.rotation, transform);
     }
-   
 }

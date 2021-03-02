@@ -198,7 +198,7 @@ public class FishingPresenter : MonoBehaviour
         Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
         Vector3 rayPoint = ray.GetPoint(distance);
         RodParent.transform.position = rayPoint;
-
+        RodParent.transform.localPosition = new Vector3(RodParent.transform.localPosition.x, RodParent.transform.localPosition.y, 0.35f);
 
 
     }
@@ -209,7 +209,6 @@ public class FishingPresenter : MonoBehaviour
 
         Vector3 rayPoint = ray.GetPoint(0);
 
-        // Not sure but this might get you a slightly better value for distance
         distance = Vector3.Distance(transform.position, rayPoint);
     }
     public void changeRotation()

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>115586420131-ovev19h46skgql3e4fu8h4dcdkcblm41.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.115586420131-ovev19h46skgql3e4fu8h4dcdkcblm41</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBNlaCxVRBvZVAqaiSvmy1Sx2Z089aBjPU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>115586420131</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.gametest.fishingAR</string>
+	<key>PROJECT_ID</key>
+	<string>fishingar-17fed</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fishingar-17fed.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:115586420131:ios:aeb436e721a02e12865e16</string>
+	<key>DATABASE_URL</key>
+	<string>https://fishingar-17fed-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

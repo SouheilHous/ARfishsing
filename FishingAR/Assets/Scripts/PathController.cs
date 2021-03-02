@@ -172,7 +172,7 @@ public class PathController : MonoBehaviour
             .Do(_ => setJumpPoints())
             .Do(_=>IsMoving=false)
             .Do(_=> setJumpRot(randwhereStart))
-            .Delay(TimeSpan.FromMilliseconds(1300))
+            .Delay(TimeSpan.FromMilliseconds(1950))
             .Do(_ => fishAnim.enabled = false)
             .Do(_=>IsJumping=false)
             .Do(_ => IsMoving = true)
@@ -192,7 +192,7 @@ public class PathController : MonoBehaviour
     void fishjumpCond()
     {
         IsJumping = true;
-        MovementSpeed = 0.4f;
+        MovementSpeed = 0.25f;
         fishAnim.enabled = true;
         fishAnim.SetTrigger("Jump");
         fishJump.Value = false;
