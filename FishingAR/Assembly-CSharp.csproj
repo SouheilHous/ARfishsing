@@ -712,6 +712,10 @@
       <Project>{714C9F3B-056A-D2B6-37B8-A91B74764EBC}</Project>
       <Name>Unity.XR.ARCore</Name>
     </ProjectReference>
+    <ProjectReference Include="NativeShare.Editor.csproj">
+      <Project>{9951EE46-D35D-9D88-67D7-84A462C3A27F}</Project>
+      <Name>NativeShare.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.XR.ARFoundation.Editor.csproj">
       <Project>{52E11D69-6CBB-800B-8117-4B163F5F1C78}</Project>
       <Name>Unity.XR.ARFoundation.Editor</Name>
@@ -764,6 +768,10 @@
       <Project>{582FC9A7-02AE-7F5D-59AC-4ECBB8E400FE}</Project>
       <Name>Unity.Postprocessing.Runtime</Name>
     </ProjectReference>
+    <ProjectReference Include="NativeShare.Runtime.csproj">
+      <Project>{F81BC62F-68A6-A995-1D3F-DEE02196E172}</Project>
+      <Name>NativeShare.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="UnityEditor.SpatialTracking.csproj">
       <Project>{5AD6126D-2ADF-3180-9F9C-5168D0087277}</Project>
       <Name>UnityEditor.SpatialTracking</Name>
@@ -791,14 +799,6 @@
     <ProjectReference Include="UnityEditor.UI.csproj">
       <Project>{631BF68B-4A0E-5545-930B-9035B5DECF82}</Project>
       <Name>UnityEditor.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="NativeShare.Editor.csproj">
-      <Project>{9951EE46-D35D-9D88-67D7-84A462C3A27F}</Project>
-      <Name>NativeShare.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="NativeShare.Runtime.csproj">
-      <Project>{F81BC62F-68A6-A995-1D3F-DEE02196E172}</Project>
-      <Name>NativeShare.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

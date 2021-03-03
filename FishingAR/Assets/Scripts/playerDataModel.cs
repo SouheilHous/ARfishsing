@@ -13,7 +13,7 @@ public struct playerDataModel
     public static bool canCatch;
     public static string playerName;
     public static bool playerLogged;
-
+    
     public static int lastGameScore;
     public enum GameStatus
     {

@@ -211,7 +211,7 @@ public class MainPresenter : MonoBehaviour
     {
         soundManager.resetSFX();
         gameCams[1].transform.GetChild(0).gameObject.SetActive(false);
-        fishingPresneter.Timer = 60;
+        fishingPresneter.Timer = 900;
         for(int i=0;i< allPanels.Length; i++)
         {
             if(allPanels[i].name== "MainMenu")
@@ -255,7 +255,16 @@ public class MainPresenter : MonoBehaviour
     }
     void spawnGround(Transform spawnPos , GameObject prefab)
     {
-        Vector3 offset = new Vector3(spawnPos.position.x-2.5f,spawnPos.position.y-0.7f,spawnPos.position.z-1f);
+        float ofsetY;
+        if (Mathf.Abs(spawnPos.localEulerAngles.x)> 50)
+        {
+            ofsetY = 1.5f;
+        }
+        else
+        {
+            ofsetY = 1f;
+        }
+        Vector3 offset = new Vector3(spawnPos.position.x-2.5f,spawnPos.position.y-ofsetY,spawnPos.position.z-1f);
         Instantiate(spawnPrefab, offset, spawnPrefab.transform.rotation, transform);
     }
     void sharefunc()
@@ -278,7 +287,7 @@ public class MainPresenter : MonoBehaviour
         Destroy(ss);
 
         new NativeShare().AddFile(filePath)
-            .SetSubject("Subject goes here").SetText("Hello world!")
+            .SetSubject("Subject goes here").SetText(shareMsg)
             .SetCallback((result, shareTarget) => Debug.Log("Share result: " + result + ", selected app: " + shareTarget))
             .Share();
 
