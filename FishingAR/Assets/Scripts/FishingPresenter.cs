@@ -50,6 +50,7 @@ public class FishingPresenter : MonoBehaviour
     void CatchFish()
     {
         hookObject.OnTriggerEnterAsObservable()
+            .Where(_=>playerDataModel.canCatch==true)
             .Where(_ => gameStart == true)
             .Where(_ => _.tag == "fish")
             .Where(_ => _.transform.parent.GetComponent<PathController>().IsJumping == true)
@@ -71,7 +72,7 @@ public class FishingPresenter : MonoBehaviour
             .Where(_=>lastCatchedFish!=null)
             .Do(_=> clearFish())
             .Delay(TimeSpan.FromMilliseconds(1000))
-            .Do(_=> PlayGroundManager.canJump = true)
+            .Do(_=> playerDataModel.canJump = true)
             .Do(_=>soundManager.playCurrentActionSFX(soundManager.effectCatch))
             .Do(_ => partEffectOff())
             .Subscribe()
@@ -150,6 +151,12 @@ public class FishingPresenter : MonoBehaviour
             {
                 playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnGame;
                 Timer -= Time.deltaTime;
+                if (Timer > 60)
+                {
+                    timerText.text = "Time Left : " + (int)(Timer/60)+ " min";
+
+                }
+                else
                 timerText.text = "Time Left : "+ (int)Timer;
                 if (Timer <= 0)
                 {
@@ -279,7 +286,16 @@ public class FishingPresenter : MonoBehaviour
             case "rimbowFish(Clone)":
                 for(int i = 0; i < fishScore.Length; i ++)
                 {
-                    score = int.Parse(fishScore[i].text) + 2;
+                    if (int.Parse(fishScore[i].text) != 0)
+                    {
+                        score = int.Parse(fishScore[i].text) * 2;
+
+                    }
+                    else
+                    {
+                        score = int.Parse(fishScore[i].text) + 2;
+
+                    }
                     fishScore[i].text = score.ToString();
                 }
                 targetPos = fishScore[UnityEngine.Random.Range(0, 2)].gameObject.transform;

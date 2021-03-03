@@ -89,9 +89,9 @@ public class PathController : MonoBehaviour
                     }
                     if (randJump >= 4)
                     {
-                        if (PlayGroundManager.canJump == true)
+                        if (playerDataModel.canJump == true)
                         {
-                            PlayGroundManager.canJump = false;
+                            playerDataModel.canJump = false;
                             fishJump.Value = true;
 
                         }
@@ -172,12 +172,15 @@ public class PathController : MonoBehaviour
             .Do(_ => setJumpPoints())
             .Do(_=>IsMoving=false)
             .Do(_=> setJumpRot(randwhereStart))
-            .Delay(TimeSpan.FromMilliseconds(1950))
+            .Do(_=>playerDataModel.canCatch=false)
+            .Delay(TimeSpan.FromMilliseconds(1000))
+            .Do(_ => playerDataModel.canCatch = true)
+            .Delay(TimeSpan.FromMilliseconds(1100))
             .Do(_ => fishAnim.enabled = false)
             .Do(_=>IsJumping=false)
             .Do(_ => IsMoving = true)
             .Do(_=> MovementSpeed = startSpeed)
-            .Do(_=>PlayGroundManager.canJump=true)
+            .Do(_=> playerDataModel.canJump=true)
             .Do(_ => soundManager.playFishJump(1))
             .Subscribe()
             .AddTo(this);

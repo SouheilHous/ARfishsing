@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using System.IO;
 using UniRx;
 using UniRx.Triggers;
 using UniRx.Operators;
@@ -19,11 +20,11 @@ public class MainPresenter : MonoBehaviour
     [SerializeField] GameObject scanCodePanel;
     [SerializeField] GameObject scorePanel;
     [SerializeField] GameObject[] allPanels;
-
+    [SerializeField] GameObject inGameCanvas;
     [SerializeField] Image startTimerImage;
     [SerializeField] Sprite[] startTimerImageSprites;
     [SerializeField] Text TimerText;
-
+    public string shareMsg;
     [SerializeField] TMP_InputField playerNameInputfield;
 
     [SerializeField] Button enterNameButton;
@@ -37,6 +38,7 @@ public class MainPresenter : MonoBehaviour
     [SerializeField] FishingPresenter fishingPresneter;
     [SerializeField] GameObject spawnPrefab;
     [SerializeField] SoundView soundManager;
+    [SerializeField] Button shareBtn;
     // Start is called before the first frame update
     void Start()
     {
@@ -110,6 +112,7 @@ public class MainPresenter : MonoBehaviour
                         .Do(_ => TimerText.text = "1")
                         .Delay(TimeSpan.FromMilliseconds(1000))
                         .Do(_ => TimerText.text = "GO")
+                        .Do(_=>inGameCanvas.SetActive(true))
                         .Delay(TimeSpan.FromMilliseconds(1200))
                         .Do(_ => startTimerPanel.SetActive(false))
                         .Do(_ => soundManager.playCurrentActionSFX(soundManager.gameStart))
@@ -118,6 +121,7 @@ public class MainPresenter : MonoBehaviour
                     break;
                 case playerDataModel.GameStatus.OnTimeUp:
                     Observable.Timer(TimeSpan.Zero)
+                        .Do(_=>inGameCanvas.SetActive(false))
                         .Do(_ => scorePanel.SetActive(true))
                         .Do(_=> playerScore.text="Score:"+playerDataModel.lastGameScore.ToString())
                         .Delay(TimeSpan.FromMilliseconds(1000))
@@ -172,7 +176,6 @@ public class MainPresenter : MonoBehaviour
         for(int i = 0; i < backToMain.Length; i++)
         {
             backToMain[i].OnClickAsObservable()
-            .Where(_ => fishingPresneter.gameStart != true)
             .Do(_ => InitializeUI())
             .Do(_=>setScore())
             .Do(_ => soundManager.playUISFX())
@@ -180,10 +183,16 @@ public class MainPresenter : MonoBehaviour
             .Subscribe(_ => restartScene())
             .AddTo(this);
         }
+        shareBtn.OnClickAsObservable()
+            .Do(_ => sharefunc())
+            .Subscribe()
+            .AddTo(this);
         
     }
     void InitializeUI()
     {
+        inGameCanvas.SetActive(false);
+        fishingPresneter.gameStart = false;
         gameCams[1].transform.GetChild(0).gameObject.SetActive(false);
         gameCams[1].gameObject.SetActive(false);
         gameCams[0].gameObject.SetActive(true);
@@ -247,6 +256,34 @@ public class MainPresenter : MonoBehaviour
     void spawnGround(Transform spawnPos , GameObject prefab)
     {
         Vector3 offset = new Vector3(spawnPos.position.x-2.5f,spawnPos.position.y-0.7f,spawnPos.position.z-1f);
-        Instantiate(spawnPrefab, offset, spawnPos.rotation, transform);
+        Instantiate(spawnPrefab, offset, spawnPrefab.transform.rotation, transform);
+    }
+    void sharefunc()
+    {
+        shareMsg = "Its amazin to catch fish in AR , in the AR fishing compitition I get this Score : " + playerDataModel.lastGameScore + " Points";
+        StartCoroutine(TakeScreenshotAndShare());
+    }
+    private IEnumerator TakeScreenshotAndShare()
+    {
+        yield return new WaitForEndOfFrame();
+
+        Texture2D ss = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+        ss.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+        ss.Apply();
+
+        string filePath = Path.Combine(Application.temporaryCachePath, "shared img.png");
+        File.WriteAllBytes(filePath, ss.EncodeToPNG());
+
+        // To avoid memory leaks
+        Destroy(ss);
+
+        new NativeShare().AddFile(filePath)
+            .SetSubject("Subject goes here").SetText("Hello world!")
+            .SetCallback((result, shareTarget) => Debug.Log("Share result: " + result + ", selected app: " + shareTarget))
+            .Share();
+
+        // Share on WhatsApp only, if installed (Android only)
+        //if( NativeShare.TargetExists( "com.whatsapp" ) )
+        //	new NativeShare().AddFile( filePath ).AddTarget( "com.whatsapp" ).Share();
     }
 }

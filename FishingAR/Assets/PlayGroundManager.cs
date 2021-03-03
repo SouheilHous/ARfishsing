@@ -13,8 +13,7 @@ public class PlayGroundManager : MonoBehaviour
     [SerializeField] GameObject[] instanceFishes;
     [SerializeField] GameObject instanceSawFishes;
     [SerializeField] GameObject instanceSpecialFishes;
-    public static bool canJump;
-
+    [SerializeField] GameObject waterZone;
     public int randInstance;
     [SerializeField] Transform instancePointsParent;
     private Transform[] _points;
@@ -27,12 +26,14 @@ public class PlayGroundManager : MonoBehaviour
     public ReactiveProperty<int> fishInSceneReactive = new ReactiveProperty<int>();
     public ReactiveProperty<int> specialFishInSceneReactive = new ReactiveProperty<int>();
     public ReactiveProperty<int> sawFishInSceneReactive = new ReactiveProperty<int>();
-
+    
     // Start is called before the first frame update
     void Start()
     {
-        canJump = true;
-           _points = instancePointsParent.GetComponentsInChildren<Transform>();
+        playerDataModel.canJump = true;
+        playerDataModel.canCatch = true;
+
+        _points = instancePointsParent.GetComponentsInChildren<Transform>();
         instanceFishesAtStart();
         fishInSceneReactive.Value = currentInstancedFishes.Count;
         ObserveCurrentFishes();
@@ -42,7 +43,7 @@ public class PlayGroundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(playerDataModel.canCatch);   
     }
     void instanceFishesAtStart()
     {
@@ -82,6 +83,16 @@ public class PlayGroundManager : MonoBehaviour
         sawFishInSceneReactive
             .Where(_ => sawFishInSceneReactive.Value != numberOfSawFishedOnScene)
             .Do(_ => instanceSingleFishSpecial(instanceSawFishes, currentInstancedSawFishes, sawFishInSceneReactive.Value, numberOfSawFishedOnScene))
+            .Subscribe()
+            .AddTo(this);
+        waterZone.OnTriggerStayAsObservable()
+            .Where(_ => _.tag == "fishNet")
+            .Do(_ => playerDataModel.canCatch = false)
+            .Subscribe()
+            .AddTo(this);
+        waterZone.OnTriggerExitAsObservable()
+            .Where(_ => _.tag == "fishNet")
+            .Do(_ => playerDataModel.canCatch = true)
             .Subscribe()
             .AddTo(this);
 
