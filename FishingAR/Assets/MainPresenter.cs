@@ -234,17 +234,13 @@ public class MainPresenter : MonoBehaviour
     void setScore()
     {
         playerDataModel.lastGameScore = 0;
-        for (int i = 0; i < fishingPresneter.fishScore.Length; i++)
-        {
-            playerDataModel.lastGameScore += int.Parse(fishingPresneter.fishScore[i].text);
-        }
-        if(playerDataModel.currentGameStatus.Value == playerDataModel.GameStatus.OnGameEnd)
-        {
+        
+            playerDataModel.lastGameScore += int.Parse(fishingPresneter.fishScore[0].text);
+        
             DatabaseManager._instance.getScore(FetchedScore =>
             {
                 DatabaseManager._instance.setScore(playerDataModel.lastGameScore + FetchedScore);
             });       
-        }
         playerScore.text = "Score:" + playerDataModel.lastGameScore.ToString();
     }
     void setName(TMP_InputField playername) 
@@ -258,11 +254,11 @@ public class MainPresenter : MonoBehaviour
         float ofsetY;
         if (Mathf.Abs(spawnPos.localEulerAngles.x)> 50)
         {
-            ofsetY = 1.5f;
+            ofsetY = 1f;
         }
         else
         {
-            ofsetY = 1f;
+            ofsetY = 0.7f;
         }
         Vector3 offset = new Vector3(spawnPos.position.x-2.5f,spawnPos.position.y-ofsetY,spawnPos.position.z-1f);
         Instantiate(spawnPrefab, offset, spawnPrefab.transform.rotation, transform);

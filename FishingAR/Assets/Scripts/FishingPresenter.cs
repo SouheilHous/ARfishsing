@@ -10,6 +10,8 @@ using UnityEngine.UI;
 public class FishingPresenter : MonoBehaviour
 {
     [SerializeField] GameObject hookObject;
+    [SerializeField] GameObject hookObjectBackSide;
+
     [SerializeField] Camera MainCam;
     [SerializeField] GameObject RodParent;
     public PlayGroundManager playGroundManager;
@@ -27,8 +29,10 @@ public class FishingPresenter : MonoBehaviour
     private Vector3 netStartRotation;
     [SerializeField] Text timerText;
     private bool dragging = false;
+    bool wrongSwing;
     public int netDestroyTimer=4;
     bool partState;
+    int layerMask = 1 << 5;
     private float distance;
     Vector3 initialPosition;
     [SerializeField] Sprite[] catchedFishImage;
@@ -41,6 +45,8 @@ public class FishingPresenter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        layerMask = ~layerMask;
+
         destroyNet.Value = false;
         partEffectOff();
         netStartRotation = RodParent.transform.localEulerAngles;
@@ -77,6 +83,15 @@ public class FishingPresenter : MonoBehaviour
             .Do(_ => partEffectOff())
             .Subscribe()
             .AddTo(this);
+        hookObjectBackSide.OnTriggerEnterAsObservable()
+            .Where(_ => gameStart == true)
+            .Where(_ => _.tag == "fish")
+            .Do(_ => wrongSwing = true)
+            .Delay(TimeSpan.FromSeconds(2))
+            .Do(_ => wrongSwing = false)
+            .Do(_=>playerDataModel.canCatch = true)
+            .Subscribe()
+            .AddTo(this);
         this.UpdateAsObservable()
             .Where(_ => fishCatched == true)
             .Do(_ => reachCatchPoint = false)  
@@ -95,6 +110,10 @@ public class FishingPresenter : MonoBehaviour
             .Do(_ => RodParent.transform.GetChild(0).gameObject.SetActive(true))
             .Do(_ => destroyNet.Value = false)
             .Subscribe()
+            .AddTo(this);
+        this.UpdateAsObservable()
+            .Where(_ => wrongSwing == true)
+            .Subscribe(_ => playerDataModel.canCatch = false)
             .AddTo(this);
 
     }
@@ -162,10 +181,9 @@ public class FishingPresenter : MonoBehaviour
                 {
                     playerDataModel.lastGameScore = 0;
                     timerText.text = "Time Left : 00" ;
-                    for (int i= 0; i < fishScore.Length; i++)
-                    {
-                        playerDataModel.lastGameScore += int.Parse(fishScore[i].text);
-                    }
+                    
+                        playerDataModel.lastGameScore += int.Parse(fishScore[0].text);
+                    
                     gameStart = false;
                     playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnTimeUp;
                 }
@@ -205,23 +223,34 @@ public class FishingPresenter : MonoBehaviour
         Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
         Vector3 rayPoint = ray.GetPoint(distance);
         RodParent.transform.position = rayPoint;
-        RodParent.transform.localPosition = new Vector3(RodParent.transform.localPosition.x, RodParent.transform.localPosition.y, 0.35f);
+        RodParent.transform.localPosition = new Vector3(RodParent.transform.localPosition.x, RodParent.transform.localPosition.y,0.1f);
 
 
     }
     void setRay()
     {
         Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
-        initialPosition = transform.position;
+        RaycastHit hitpoint;
+        if(Physics.Raycast(ray ,out hitpoint, layerMask))
+        {
+            
+            if (hitpoint.transform.tag != "ui")
+            {
+                initialPosition = transform.position;
 
-        Vector3 rayPoint = ray.GetPoint(0);
+                Vector3 rayPoint = ray.GetPoint(0);
 
-        distance = Vector3.Distance(transform.position, rayPoint);
+                distance = Vector3.Distance(transform.position, rayPoint);
+            }
+           
+        }
+        
     }
     public void changeRotation()
     {
-        RodParent.transform.localEulerAngles = new Vector3(RodParent.transform.localEulerAngles.x, RodParent.transform.localEulerAngles.y, netStartRotation.z + sliderRot.value);
+        RodParent.transform.localEulerAngles = new Vector3(RodParent.transform.localEulerAngles.x, netStartRotation.y+sliderRot.value, RodParent.transform.localEulerAngles.z);
     }
+    
     void partEffectOn()
     {
         soundManager.playCurrentActionSFX(soundManager.effectCatch);
@@ -274,31 +303,30 @@ public class FishingPresenter : MonoBehaviour
                 fishScore[0].text = score.ToString();
                 break;
             case "Red(Clone)":
-                targetPos = fishScore[1].gameObject.transform;
-                score = int.Parse(fishScore[1].text) + 1;
+                targetPos = fishScore[0].gameObject.transform;
+                score = int.Parse(fishScore[0].text) + 1;
                 fishScore[1].text = score.ToString();
                 break;
             case "green(Clone)":
-                targetPos = fishScore[2].gameObject.transform;
+                targetPos = fishScore[0].gameObject.transform;
                 score = int.Parse(fishScore[2].text) + 1;
                 fishScore[2].text = score.ToString();
                 break;
             case "rimbowFish(Clone)":
-                for(int i = 0; i < fishScore.Length; i ++)
-                {
-                    if (int.Parse(fishScore[i].text) != 0)
+                
+                    if (int.Parse(fishScore[0].text) != 0)
                     {
-                        score = int.Parse(fishScore[i].text) * 2;
+                        score = int.Parse(fishScore[0].text) * 2;
 
                     }
                     else
                     {
-                        score = int.Parse(fishScore[i].text) + 2;
+                        score = int.Parse(fishScore[0].text) + 2;
 
                     }
-                    fishScore[i].text = score.ToString();
-                }
-                targetPos = fishScore[UnityEngine.Random.Range(0, 2)].gameObject.transform;
+                    fishScore[0].text = score.ToString();
+                
+                targetPos = fishScore[0].gameObject.transform;
                 break;
             case "SawFish(Clone)":
                 for (int i = 0; i < fishScore.Length; i++)

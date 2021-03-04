@@ -15,8 +15,8 @@ public class PathController : MonoBehaviour
     public float MovementSpeed;
     public Transform PathContainer;
     public Transform JumpContainer;
-    [SerializeField] List<int> JumpStartPoint = new List<int> {1,3,5,7 };
-    [SerializeField] List<int> JumpEndPoint = new List<int> { 2, 4, 6, 8 };
+    [SerializeField] List<int> JumpStartPoint = new List<int> {0,2,4,6 ,8,10,12};
+    [SerializeField] List<int> JumpEndPoint = new List<int> { 1,3, 5, 7,9,11,13};
     private List<int> CurrentJumpPoints = new List<int>();
 
     public bool IsMoving;
@@ -128,15 +128,19 @@ public class PathController : MonoBehaviour
     }
      IEnumerator SlerpRot(Quaternion startRot, Quaternion endRot, float slerpTime)
     {
-        float elapsed = 0;
-        while (elapsed < slerpTime)
+        if (fishJump.Value == false)
         {
-            elapsed += Time.deltaTime;
+            float elapsed = 0;
+            while (elapsed < slerpTime)
+            {
+                elapsed += Time.deltaTime;
 
-            transform.rotation = Quaternion.Slerp(startRot, endRot, elapsed / slerpTime);
+                transform.rotation = Quaternion.Slerp(startRot, endRot, elapsed / slerpTime);
 
-            yield return null;
+                yield return null;
+            }
         }
+       
     }
 
     private void OnDrawGizmosSelected()
@@ -173,7 +177,7 @@ public class PathController : MonoBehaviour
             .Do(_=>IsMoving=false)
             .Do(_=> setJumpRot(randwhereStart))
             .Do(_=>playerDataModel.canCatch=false)
-            .Delay(TimeSpan.FromMilliseconds(750))
+            .Delay(TimeSpan.FromMilliseconds(350))
             .Do(_ => playerDataModel.canCatch = true)
             .Delay(TimeSpan.FromMilliseconds(750))
             .Do(_ => fishAnim.enabled = false)
@@ -195,25 +199,25 @@ public class PathController : MonoBehaviour
     void fishjumpCond()
     {
         IsJumping = true;
-        MovementSpeed = 0.25f;
+        MovementSpeed = 0.9f;
         fishAnim.enabled = true;
         fishAnim.SetTrigger("Jump");
         fishJump.Value = false;
     }
     void setJumpPoints()
     {
-        int randJumpPoint = UnityEngine.Random.Range(0, 4);
+        int randJumpPoint = UnityEngine.Random.Range(0, 7);
         CurrentJumpPoints.Clear();
         CurrentJumpPoints.Add(JumpStartPoint[randJumpPoint]);
         CurrentJumpPoints.Add(JumpEndPoint[randJumpPoint]);
         randwhereStart = UnityEngine.Random.Range(0, 1);
-        transform.position = _jumpPoints[randwhereStart].position;
+        transform.position = _jumpPoints[CurrentJumpPoints[randwhereStart]].position;
     }
     void jumpPathMove(int startIndex)
     {
         if (startIndex == 0)
         {
-            
+            transform.LookAt(_jumpPoints[CurrentJumpPoints[1]]);
             switch (MovementStyle)
             {
                 default:
@@ -230,7 +234,8 @@ public class PathController : MonoBehaviour
         }
         else
         {
-           
+
+            transform.LookAt(_jumpPoints[CurrentJumpPoints[0]]);
 
             switch (MovementStyle)
             {
