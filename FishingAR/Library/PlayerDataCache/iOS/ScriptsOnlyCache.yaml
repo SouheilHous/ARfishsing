@@ -37,8 +37,6 @@ ScriptsOnlyBuild:
     - TMPro.TMP_SpriteAsset
     - TMPro.TMP_StyleSheet
     - TMPro.TextMeshProUGUI
-    Unity.XR.ARCore.Editor.dll:
-    - UnityEditor.XR.ARCore.ARCoreSettings
     Unity.XR.ARCore.dll:
     - UnityEngine.XR.ARCore.ARCoreLoader
     Unity.XR.ARFoundation.dll:
@@ -137,95 +135,95 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11450}
     - Class: 114
-      Script: {instanceID: 11458}
+      Script: {instanceID: 11466}
     - Class: 114
-      Script: {instanceID: 11486}
-    - Class: 114
-      Script: {instanceID: 11512}
+      Script: {instanceID: 11494}
     - Class: 114
       Script: {instanceID: 11520}
     - Class: 114
-      Script: {instanceID: 11684}
+      Script: {instanceID: 11528}
     - Class: 114
-      Script: {instanceID: 11844}
+      Script: {instanceID: 11692}
     - Class: 114
-      Script: {instanceID: 11884}
+      Script: {instanceID: 11852}
     - Class: 114
-      Script: {instanceID: 11902}
+      Script: {instanceID: 11892}
     - Class: 114
-      Script: {instanceID: 12030}
+      Script: {instanceID: 11910}
     - Class: 114
-      Script: {instanceID: 12050}
+      Script: {instanceID: 12038}
     - Class: 114
-      Script: {instanceID: 12052}
+      Script: {instanceID: 12058}
     - Class: 114
-      Script: {instanceID: 12122}
+      Script: {instanceID: 12060}
     - Class: 114
-      Script: {instanceID: 12198}
+      Script: {instanceID: 12130}
     - Class: 114
-      Script: {instanceID: 12224}
+      Script: {instanceID: 12206}
     - Class: 114
-      Script: {instanceID: 12420}
+      Script: {instanceID: 12232}
     - Class: 114
-      Script: {instanceID: 12468}
+      Script: {instanceID: 12428}
     - Class: 114
-      Script: {instanceID: 12522}
+      Script: {instanceID: 12476}
     - Class: 114
-      Script: {instanceID: 12550}
+      Script: {instanceID: 12530}
     - Class: 114
-      Script: {instanceID: 12604}
+      Script: {instanceID: 12558}
     - Class: 114
-      Script: {instanceID: 12854}
+      Script: {instanceID: 12612}
     - Class: 114
-      Script: {instanceID: 13102}
+      Script: {instanceID: 12862}
     - Class: 114
-      Script: {instanceID: 13132}
+      Script: {instanceID: 13110}
     - Class: 114
-      Script: {instanceID: 13322}
+      Script: {instanceID: 13140}
     - Class: 114
-      Script: {instanceID: 13500}
+      Script: {instanceID: 13330}
     - Class: 114
-      Script: {instanceID: 13586}
+      Script: {instanceID: 13508}
     - Class: 114
-      Script: {instanceID: 13698}
+      Script: {instanceID: 13594}
     - Class: 114
-      Script: {instanceID: 13718}
+      Script: {instanceID: 13706}
     - Class: 114
-      Script: {instanceID: 13742}
+      Script: {instanceID: 13726}
     - Class: 114
-      Script: {instanceID: 13880}
+      Script: {instanceID: 13750}
     - Class: 114
-      Script: {instanceID: 13902}
+      Script: {instanceID: 13888}
     - Class: 114
-      Script: {instanceID: 13986}
+      Script: {instanceID: 13910}
     - Class: 114
-      Script: {instanceID: 14066}
+      Script: {instanceID: 13994}
     - Class: 114
-      Script: {instanceID: 14160}
+      Script: {instanceID: 14074}
     - Class: 114
-      Script: {instanceID: 14206}
+      Script: {instanceID: 14168}
     - Class: 114
-      Script: {instanceID: 14232}
+      Script: {instanceID: 14214}
     - Class: 114
-      Script: {instanceID: 14352}
+      Script: {instanceID: 14240}
     - Class: 114
-      Script: {instanceID: 14438}
+      Script: {instanceID: 14360}
     - Class: 114
-      Script: {instanceID: 14454}
+      Script: {instanceID: 14446}
     - Class: 114
-      Script: {instanceID: 14596}
+      Script: {instanceID: 14462}
     - Class: 114
-      Script: {instanceID: 14648}
+      Script: {instanceID: 14604}
     - Class: 114
-      Script: {instanceID: 14654}
+      Script: {instanceID: 14656}
     - Class: 114
-      Script: {instanceID: 14664}
+      Script: {instanceID: 14662}
     - Class: 114
-      Script: {instanceID: 14704}
+      Script: {instanceID: 14672}
     - Class: 114
-      Script: {instanceID: 14798}
+      Script: {instanceID: 14712}
     - Class: 114
-      Script: {instanceID: 14850}
+      Script: {instanceID: 14806}
+    - Class: 114
+      Script: {instanceID: 14858}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -621,7 +619,7 @@ ScriptsOnlyBuild:
     className: ObservableLateUpdateTrigger
   - hash:
       serializedVersion: 2
-      Hash: 4ea1d83a3341c8a1dc87f4c03e61cfe7
+      Hash: 9d6e5728a6cd8f0c6a8954c205fa8a2b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FishingPresenter
@@ -825,7 +823,7 @@ ScriptsOnlyBuild:
     className: ARKitReferenceObjectEntry
   - hash:
       serializedVersion: 2
-      Hash: 79a3449c04352128efdccf8ccafe234d
+      Hash: d954ded6e5fe82f6f3b56f55414e956e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MainPresenter
