@@ -11,7 +11,6 @@ public class FishingPresenter : MonoBehaviour
 {
     [SerializeField] GameObject hookObject;
     [SerializeField] GameObject hookObjectBackSide;
-
     [SerializeField] Camera MainCam;
     [SerializeField] GameObject RodParent;
     public PlayGroundManager playGroundManager;
@@ -223,7 +222,7 @@ public class FishingPresenter : MonoBehaviour
         Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
         Vector3 rayPoint = ray.GetPoint(distance);
         RodParent.transform.position = rayPoint;
-        RodParent.transform.localPosition = new Vector3(RodParent.transform.localPosition.x, RodParent.transform.localPosition.y,0.1f);
+        RodParent.transform.localPosition = new Vector3(RodParent.transform.localPosition.x, RodParent.transform.localPosition.y-0.35f, 1);
 
 
     }
