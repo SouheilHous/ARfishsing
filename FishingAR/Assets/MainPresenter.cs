@@ -39,6 +39,7 @@ public class MainPresenter : MonoBehaviour
     [SerializeField] GameObject spawnPrefab;
     [SerializeField] SoundView soundManager;
     [SerializeField] Button shareBtn;
+    [SerializeField] Transform spawnPosCam;
     // Start is called before the first frame update
     void Start()
     {
@@ -260,7 +261,7 @@ public class MainPresenter : MonoBehaviour
         {
             ofsetY = 0.7f;
         }
-        Vector3 offset = new Vector3(spawnPos.position.x-2.5f,spawnPos.position.y-ofsetY,spawnPos.position.z-1f);
+        Vector3 offset = spawnPosCam.position;
         Instantiate(spawnPrefab, offset, spawnPrefab.transform.rotation, transform);
     }
     void sharefunc()
