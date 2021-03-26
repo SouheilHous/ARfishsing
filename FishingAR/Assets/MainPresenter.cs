@@ -40,6 +40,10 @@ public class MainPresenter : MonoBehaviour
     [SerializeField] SoundView soundManager;
     [SerializeField] Button shareBtn;
     [SerializeField] Transform spawnPosCam;
+    [SerializeField] GameObject pausePanel;
+    [SerializeField] Button pauseButton;
+    [SerializeField] Button ContunieButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -180,6 +184,7 @@ public class MainPresenter : MonoBehaviour
             .Do(_ => InitializeUI())
             .Do(_=>setScore())
             .Do(_ => soundManager.playUISFX())
+            .Do(_=>pauseFunc(1,false))
             .Do(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnMain)
             .Subscribe(_ => restartScene())
             .AddTo(this);
@@ -188,7 +193,15 @@ public class MainPresenter : MonoBehaviour
             .Do(_ => sharefunc())
             .Subscribe()
             .AddTo(this);
-        
+        pauseButton.OnClickAsObservable()
+            .Do(_ => pauseFunc(0,true))
+            .Subscribe()
+            .AddTo(this);
+        ContunieButton.OnClickAsObservable()
+           .Do(_ => pauseFunc(1,false))
+           .Subscribe()
+           .AddTo(this);
+
     }
     void InitializeUI()
     {
@@ -291,5 +304,12 @@ public class MainPresenter : MonoBehaviour
         // Share on WhatsApp only, if installed (Android only)
         //if( NativeShare.TargetExists( "com.whatsapp" ) )
         //	new NativeShare().AddFile( filePath ).AddTarget( "com.whatsapp" ).Share();
+    }
+    void pauseFunc(int time, bool active)
+    {
+        Time.timeScale = time;
+        
+            pausePanel.SetActive(active);
+        
     }
 }
