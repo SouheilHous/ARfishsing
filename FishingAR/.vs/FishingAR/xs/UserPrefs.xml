@@ -2,8 +2,9 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/MainPresenter.cs">
     <Files>
       <File FileName="Assets/PlayGroundManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/PathController.cs" />
-      <File FileName="Assets/MainPresenter.cs" Line="178" Column="24" />
+      <File FileName="Assets/Scripts/PathController.cs" Line="54" Column="26" />
+      <File FileName="Assets/MainPresenter.cs" Line="273" Column="25" />
+      <File FileName="Assets/Scripts/FishingPresenter.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,7 +21,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="a7cb6353-6afd-4675-aab2-45e17849a064" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="1e1cdcd4-4c13-4db7-87c3-0b439cd10bc1" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

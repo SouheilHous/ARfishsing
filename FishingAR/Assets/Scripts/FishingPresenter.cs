@@ -222,7 +222,7 @@ public class FishingPresenter : MonoBehaviour
         Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
         Vector3 rayPoint = ray.GetPoint(distance);
         RodParent.transform.position = rayPoint;
-        RodParent.transform.localPosition = new Vector3(RodParent.transform.localPosition.x, RodParent.transform.localPosition.y-0.35f, 1);
+        RodParent.transform.localPosition = new Vector3(RodParent.transform.localPosition.x*14, RodParent.transform.localPosition.y*14, 1);
 
 
     }

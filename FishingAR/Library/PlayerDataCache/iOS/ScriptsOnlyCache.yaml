@@ -62,12 +62,6 @@ ScriptsOnlyBuild:
     Unity.XR.Management.dll:
     - UnityEngine.XR.Management.XRGeneralSettings
     - UnityEngine.XR.Management.XRManagerSettings
-    UnityEditor.Graphs.dll:
-    - UnityEditor.Graphs.AnimationBlendTree.Graph
-    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.Graph
-    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -135,95 +129,95 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11450}
     - Class: 114
-      Script: {instanceID: 11466}
+      Script: {instanceID: 11458}
     - Class: 114
-      Script: {instanceID: 11494}
+      Script: {instanceID: 11486}
+    - Class: 114
+      Script: {instanceID: 11512}
     - Class: 114
       Script: {instanceID: 11520}
     - Class: 114
-      Script: {instanceID: 11528}
+      Script: {instanceID: 11684}
     - Class: 114
-      Script: {instanceID: 11692}
+      Script: {instanceID: 11844}
     - Class: 114
-      Script: {instanceID: 11852}
+      Script: {instanceID: 11884}
     - Class: 114
-      Script: {instanceID: 11892}
+      Script: {instanceID: 11902}
     - Class: 114
-      Script: {instanceID: 11910}
+      Script: {instanceID: 12030}
     - Class: 114
-      Script: {instanceID: 12038}
+      Script: {instanceID: 12050}
     - Class: 114
-      Script: {instanceID: 12058}
+      Script: {instanceID: 12052}
     - Class: 114
-      Script: {instanceID: 12060}
+      Script: {instanceID: 12122}
     - Class: 114
-      Script: {instanceID: 12130}
+      Script: {instanceID: 12198}
     - Class: 114
-      Script: {instanceID: 12206}
+      Script: {instanceID: 12224}
     - Class: 114
-      Script: {instanceID: 12232}
+      Script: {instanceID: 12420}
     - Class: 114
-      Script: {instanceID: 12428}
+      Script: {instanceID: 12468}
     - Class: 114
-      Script: {instanceID: 12476}
+      Script: {instanceID: 12522}
     - Class: 114
-      Script: {instanceID: 12530}
+      Script: {instanceID: 12550}
     - Class: 114
-      Script: {instanceID: 12558}
+      Script: {instanceID: 12604}
     - Class: 114
-      Script: {instanceID: 12612}
+      Script: {instanceID: 12854}
     - Class: 114
-      Script: {instanceID: 12862}
+      Script: {instanceID: 13102}
     - Class: 114
-      Script: {instanceID: 13110}
+      Script: {instanceID: 13132}
     - Class: 114
-      Script: {instanceID: 13140}
+      Script: {instanceID: 13322}
     - Class: 114
-      Script: {instanceID: 13330}
+      Script: {instanceID: 13500}
     - Class: 114
-      Script: {instanceID: 13508}
+      Script: {instanceID: 13586}
     - Class: 114
-      Script: {instanceID: 13594}
+      Script: {instanceID: 13698}
     - Class: 114
-      Script: {instanceID: 13706}
+      Script: {instanceID: 13718}
     - Class: 114
-      Script: {instanceID: 13726}
+      Script: {instanceID: 13742}
     - Class: 114
-      Script: {instanceID: 13750}
+      Script: {instanceID: 13880}
     - Class: 114
-      Script: {instanceID: 13888}
+      Script: {instanceID: 13902}
     - Class: 114
-      Script: {instanceID: 13910}
+      Script: {instanceID: 13986}
     - Class: 114
-      Script: {instanceID: 13994}
+      Script: {instanceID: 14066}
     - Class: 114
-      Script: {instanceID: 14074}
+      Script: {instanceID: 14160}
     - Class: 114
-      Script: {instanceID: 14168}
+      Script: {instanceID: 14206}
     - Class: 114
-      Script: {instanceID: 14214}
+      Script: {instanceID: 14232}
     - Class: 114
-      Script: {instanceID: 14240}
+      Script: {instanceID: 14352}
     - Class: 114
-      Script: {instanceID: 14360}
+      Script: {instanceID: 14438}
     - Class: 114
-      Script: {instanceID: 14446}
+      Script: {instanceID: 14454}
     - Class: 114
-      Script: {instanceID: 14462}
+      Script: {instanceID: 14596}
     - Class: 114
-      Script: {instanceID: 14604}
+      Script: {instanceID: 14648}
     - Class: 114
-      Script: {instanceID: 14656}
+      Script: {instanceID: 14654}
     - Class: 114
-      Script: {instanceID: 14662}
+      Script: {instanceID: 14664}
     - Class: 114
-      Script: {instanceID: 14672}
+      Script: {instanceID: 14704}
     - Class: 114
-      Script: {instanceID: 14712}
+      Script: {instanceID: 14798}
     - Class: 114
-      Script: {instanceID: 14806}
-    - Class: 114
-      Script: {instanceID: 14858}
+      Script: {instanceID: 14850}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -823,7 +817,7 @@ ScriptsOnlyBuild:
     className: ARKitReferenceObjectEntry
   - hash:
       serializedVersion: 2
-      Hash: d954ded6e5fe82f6f3b56f55414e956e
+      Hash: a92dd826d58477fad759ff84da31b3a8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MainPresenter

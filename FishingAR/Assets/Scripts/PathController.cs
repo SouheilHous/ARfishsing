@@ -51,7 +51,7 @@ public class PathController : MonoBehaviour
     void Start()
     {
         //fishAnim = GetComponent<Animator>();
-        startSpeed = 1;
+        startSpeed = 1.5f;
         IsMoving = true;
         _currentTargetIdxReactive
             .Where(_=>IsMoving)
@@ -199,7 +199,7 @@ public class PathController : MonoBehaviour
     void fishjumpCond()
     {
         IsJumping = true;
-        MovementSpeed = 2f;
+        MovementSpeed = 3f;
         fishAnim.enabled = true;
         fishAnim.SetTrigger("Jump");
         fishJump.Value = false;

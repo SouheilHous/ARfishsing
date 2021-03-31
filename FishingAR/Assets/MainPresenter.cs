@@ -40,6 +40,8 @@ public class MainPresenter : MonoBehaviour
     [SerializeField] SoundView soundManager;
     [SerializeField] Button shareBtn;
     [SerializeField] Transform spawnPosCam;
+    [SerializeField] Transform net;
+
     [SerializeField] GameObject pausePanel;
     [SerializeField] Button pauseButton;
     [SerializeField] Button ContunieButton;
@@ -54,7 +56,7 @@ public class MainPresenter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        setNetRotationDown(gameCams[1].transform,net);
     }
     void ObserveGameStatus()
     {
@@ -181,10 +183,10 @@ public class MainPresenter : MonoBehaviour
         for(int i = 0; i < backToMain.Length; i++)
         {
             backToMain[i].OnClickAsObservable()
+            .Do(_ => pauseFunc(1, false))
             .Do(_ => InitializeUI())
             .Do(_=>setScore())
             .Do(_ => soundManager.playUISFX())
-            .Do(_=>pauseFunc(1,false))
             .Do(_ => playerDataModel.currentGameStatus.Value = playerDataModel.GameStatus.OnMain)
             .Subscribe(_ => restartScene())
             .AddTo(this);
@@ -268,13 +270,13 @@ public class MainPresenter : MonoBehaviour
         float ofsetY;
         if (Mathf.Abs(spawnPos.localEulerAngles.x)> 50)
         {
-            ofsetY = 1f;
+            ofsetY = 0.2f;
         }
         else
         {
-            ofsetY = 0.7f;
+            ofsetY = 0.1f;
         }
-        Vector3 offset = spawnPosCam.position;
+        Vector3 offset = new Vector3( spawnPosCam.position.x, spawnPosCam.position.y-ofsetY, spawnPosCam.position.z );
         Instantiate(spawnPrefab, offset, spawnPrefab.transform.rotation, transform);
     }
     void sharefunc()
@@ -311,5 +313,17 @@ public class MainPresenter : MonoBehaviour
         
             pausePanel.SetActive(active);
         
+    }
+    void setNetRotationDown(Transform cam,Transform net)
+    {
+        if (cam.localEulerAngles.x > 25)
+        {
+            net.localEulerAngles = new Vector3(-cam.localEulerAngles.x+15, net.localEulerAngles.y, net.localEulerAngles.z);
+        }
+        else
+        {
+            net.localEulerAngles = new Vector3(3.5f, net.localEulerAngles.y, net.localEulerAngles.z);
+
+        }
     }
 }
