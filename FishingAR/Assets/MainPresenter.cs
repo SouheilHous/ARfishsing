@@ -45,6 +45,7 @@ public class MainPresenter : MonoBehaviour
     [SerializeField] GameObject pausePanel;
     [SerializeField] Button pauseButton;
     [SerializeField] Button ContunieButton;
+    [SerializeField] Button exitBtn;
 
     // Start is called before the first frame update
     void Start()
@@ -199,6 +200,10 @@ public class MainPresenter : MonoBehaviour
             .Do(_ => pauseFunc(0,true))
             .Subscribe()
             .AddTo(this);
+        exitBtn.OnClickAsObservable()
+            .Do(_ => Application.Quit())
+            .Subscribe()
+            .AddTo(this);
         ContunieButton.OnClickAsObservable()
            .Do(_ => pauseFunc(1,false))
            .Subscribe()
@@ -316,14 +321,7 @@ public class MainPresenter : MonoBehaviour
     }
     void setNetRotationDown(Transform cam,Transform net)
     {
-        if (cam.localEulerAngles.x > 25)
-        {
-            net.localEulerAngles = new Vector3(-cam.localEulerAngles.x+15, net.localEulerAngles.y, net.localEulerAngles.z);
-        }
-        else
-        {
-            net.localEulerAngles = new Vector3(3.5f, net.localEulerAngles.y, net.localEulerAngles.z);
-
-        }
+          net.localEulerAngles = new Vector3(-cam.localEulerAngles.x+10, net.localEulerAngles.y, net.localEulerAngles.z);
+        
     }
 }

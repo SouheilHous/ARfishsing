@@ -28,7 +28,7 @@ public class FishingPresenter : MonoBehaviour
     private Vector3 netStartRotation;
     [SerializeField] Text timerText;
     private bool dragging = false;
-    bool wrongSwing;
+    public ReactiveProperty<bool> wrongSwing = new ReactiveProperty<bool>();
     public int netDestroyTimer=4;
     bool partState;
     int layerMask = 1 << 5;
@@ -85,23 +85,20 @@ public class FishingPresenter : MonoBehaviour
         hookObjectBackSide.OnTriggerEnterAsObservable()
             .Where(_ => gameStart == true)
             .Where(_ => _.tag == "fish")
-            .Do(_ => wrongSwing = true)
+            .Do(_ => wrongSwing.Value = true)
             .Delay(TimeSpan.FromSeconds(2))
-            .Do(_ => wrongSwing = false)
+            .Do(_ => wrongSwing.Value = false)
             .Do(_=>playerDataModel.canCatch = true)
             .Subscribe()
             .AddTo(this);
         this.UpdateAsObservable()
             .Where(_ => fishCatched == true)
+            .Do(_=>gotoPos())
             .Do(_ => reachCatchPoint = false)  
             .Where(_=> lastCatchedFish[lastCatchedFish.Count - 1]!=null)
             .Subscribe(_ => moveTocatchPost(lastCatchedFish[lastCatchedFish.Count - 1].transform, hookObject.transform.GetChild(0).transform))
             .AddTo(this);
-        this.UpdateAsObservable()
-          .Where(_ => fishCatched == true)
-          .Where(_=> targetPos!=null)
-          .Subscribe(_=> moveParticule(targetPos.position))
-          .AddTo(this);
+     
         destroyNet
             .Where(_ => destroyNet.Value == true)
             .Do(_ => RodParent.transform.GetChild(0).gameObject.SetActive(false))
@@ -110,8 +107,8 @@ public class FishingPresenter : MonoBehaviour
             .Do(_ => destroyNet.Value = false)
             .Subscribe()
             .AddTo(this);
-        this.UpdateAsObservable()
-            .Where(_ => wrongSwing == true)
+        wrongSwing
+            .Where(_ => wrongSwing.Value == true)
             .Subscribe(_ => playerDataModel.canCatch = false)
             .AddTo(this);
 
@@ -193,22 +190,10 @@ public class FishingPresenter : MonoBehaviour
     void ObserveMouseDragRod()
     {
         
-       this.UpdateAsObservable()
-            .Where(_=> playerDataModel.currentGameStatus.Value == playerDataModel.GameStatus.OnGame)
-            .Where(_ => Input.GetMouseButton(0))
-            .Do(_ => mouseClicked = true)
-            .Subscribe(_ => moveRod())
-            .AddTo(this);
+      
         this.UpdateAsObservable()
-            .Where(_ => playerDataModel.currentGameStatus.Value == playerDataModel.GameStatus.OnGame)
-            .Where(_ => Input.GetMouseButtonDown(0))
-            .Subscribe(_ => setRay())
-            .AddTo(this);
-        this.UpdateAsObservable()
-            .Where(_ => playerDataModel.currentGameStatus.Value == playerDataModel.GameStatus.OnGame)
-           .Where(_ => Input.GetMouseButtonUp(0))
-           .Do(_ => mouseClicked = false)
-           .Do(_ => dragging = false)
+            
+           .Do(_ => observeMouseFun())
            .Subscribe()
            .AddTo(this);
 
@@ -216,13 +201,36 @@ public class FishingPresenter : MonoBehaviour
        
             
     }
+    void observeMouseFun()
+    {
+        if (playerDataModel.currentGameStatus.Value == playerDataModel.GameStatus.OnGame)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                mouseClicked = true;
+                moveRod();
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                setRay();
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                mouseClicked = false;
+                dragging = false;
+            }
+        }
+        
+
+    }
+       
     void moveRod()
     {
 
         Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
         Vector3 rayPoint = ray.GetPoint(distance);
         RodParent.transform.position = rayPoint;
-        RodParent.transform.localPosition = new Vector3(RodParent.transform.localPosition.x*14, RodParent.transform.localPosition.y*14, 1);
+        RodParent.transform.localPosition = new Vector3(RodParent.transform.localPosition.x*10, RodParent.transform.localPosition.y*10, 0.55f);
 
 
     }
@@ -242,6 +250,14 @@ public class FishingPresenter : MonoBehaviour
                 distance = Vector3.Distance(transform.position, rayPoint);
             }
            
+        }
+        
+    }
+    void gotoPos()
+    {
+        if (targetPos != null)
+        {
+            moveParticule(targetPos.position);
         }
         
     }

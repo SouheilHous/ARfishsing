@@ -1,18 +1,19 @@
 ﻿<Properties StartupConfiguration="{C37819B7-5C63-013A-7605-081C7B6970D2}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/MainPresenter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/FishingPresenter.cs">
     <Files>
       <File FileName="Assets/PlayGroundManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/PathController.cs" Line="54" Column="26" />
-      <File FileName="Assets/MainPresenter.cs" Line="273" Column="25" />
-      <File FileName="Assets/Scripts/FishingPresenter.cs" />
+      <File FileName="Assets/Scripts/PathController.cs" Line="202" Column="28" />
+      <File FileName="Assets/MainPresenter.cs" Line="324" Column="72" />
+      <File FileName="Assets/Scripts/FishingPresenter.cs" Line="233" Column="95" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="FishingAR" expanded="True">
             <Node name="Assets" expanded="True">
-              <Node name="Scripts" expanded="True" />
-              <Node name="MainPresenter.cs" selected="True" />
+              <Node name="Scripts" expanded="True">
+                <Node name="FishingPresenter.cs" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>
@@ -21,7 +22,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="1e1cdcd4-4c13-4db7-87c3-0b439cd10bc1" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="c8e0014e-715d-4fdc-b0ee-7e4b8799b256" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

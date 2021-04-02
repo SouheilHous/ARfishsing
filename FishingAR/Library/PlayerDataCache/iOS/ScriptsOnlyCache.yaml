@@ -12,22 +12,6 @@ ScriptsOnlyBuild:
     - PlayGroundManager
     - RankElement
     - SoundView
-    Unity.Postprocessing.Runtime.dll:
-    - UnityEngine.Rendering.PostProcessing.AmbientOcclusion
-    - UnityEngine.Rendering.PostProcessing.AutoExposure
-    - UnityEngine.Rendering.PostProcessing.Bloom
-    - UnityEngine.Rendering.PostProcessing.ChromaticAberration
-    - UnityEngine.Rendering.PostProcessing.ColorGrading
-    - UnityEngine.Rendering.PostProcessing.DepthOfField
-    - UnityEngine.Rendering.PostProcessing.Grain
-    - UnityEngine.Rendering.PostProcessing.LensDistortion
-    - UnityEngine.Rendering.PostProcessing.MotionBlur
-    - UnityEngine.Rendering.PostProcessing.PostProcessLayer
-    - UnityEngine.Rendering.PostProcessing.PostProcessProfile
-    - UnityEngine.Rendering.PostProcessing.PostProcessResources
-    - UnityEngine.Rendering.PostProcessing.PostProcessVolume
-    - UnityEngine.Rendering.PostProcessing.ScreenSpaceReflections
-    - UnityEngine.Rendering.PostProcessing.Vignette
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     Unity.TextMeshPro.dll:
@@ -37,6 +21,8 @@ ScriptsOnlyBuild:
     - TMPro.TMP_SpriteAsset
     - TMPro.TMP_StyleSheet
     - TMPro.TextMeshProUGUI
+    Unity.XR.ARCore.Editor.dll:
+    - UnityEditor.XR.ARCore.ARCoreSettings
     Unity.XR.ARCore.dll:
     - UnityEngine.XR.ARCore.ARCoreLoader
     Unity.XR.ARFoundation.dll:
@@ -106,8 +92,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 65
       Script: {instanceID: 0}
-    - Class: 72
-      Script: {instanceID: 0}
     - Class: 74
       Script: {instanceID: 0}
     - Class: 81
@@ -129,13 +113,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11450}
     - Class: 114
-      Script: {instanceID: 11458}
-    - Class: 114
       Script: {instanceID: 11486}
     - Class: 114
       Script: {instanceID: 11512}
-    - Class: 114
-      Script: {instanceID: 11520}
     - Class: 114
       Script: {instanceID: 11684}
     - Class: 114
@@ -144,8 +124,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 11884}
     - Class: 114
       Script: {instanceID: 11902}
-    - Class: 114
-      Script: {instanceID: 12030}
     - Class: 114
       Script: {instanceID: 12050}
     - Class: 114
@@ -168,8 +146,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12604}
     - Class: 114
       Script: {instanceID: 12854}
-    - Class: 114
-      Script: {instanceID: 13102}
     - Class: 114
       Script: {instanceID: 13132}
     - Class: 114
@@ -205,13 +181,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14454}
     - Class: 114
-      Script: {instanceID: 14596}
-    - Class: 114
       Script: {instanceID: 14648}
     - Class: 114
       Script: {instanceID: 14654}
-    - Class: 114
-      Script: {instanceID: 14664}
     - Class: 114
       Script: {instanceID: 14704}
     - Class: 114
@@ -817,7 +789,7 @@ ScriptsOnlyBuild:
     className: ARKitReferenceObjectEntry
   - hash:
       serializedVersion: 2
-      Hash: a92dd826d58477fad759ff84da31b3a8
+      Hash: 27fdf7571c4366a4ac8d8e77ec69eb54
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MainPresenter
