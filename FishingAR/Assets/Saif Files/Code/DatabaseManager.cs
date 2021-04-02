@@ -68,4 +68,24 @@ public class DatabaseManager : MonoBehaviour
                 Success((int)((long)snapshot.Value));
             });
     }
+    public void doesUserExist(Action<List<string>> listOfUsers) // add this method to the DatabaseManager script
+    {
+        List<string> _usersName = new List<string>();
+        FirebaseUser user = FirebaseAuth.DefaultInstance.CurrentUser;
+        FirebaseDatabase
+            .DefaultInstance
+            .RootReference
+            .Child("users")
+            .GetValueAsync()
+            .ContinueWith(task =>
+            {
+                DataSnapshot snapshot = task.Result;
+                foreach (DataSnapshot shot in snapshot.Children)
+                {
+                    _usersName.Add(shot.Child("UserName").Value.ToString());
+                }
+                listOfUsers(_usersName);
+            });
+    }
+
 }
